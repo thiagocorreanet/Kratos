@@ -25,4 +25,19 @@ Seja qual for a empresa, qual for o segmento o Kratos sempre estará preparado p
 - Queries: Estrutura para utilizar as querys da application para consulta na base de dados, tanto os commands quanto querias fazem parte do padrão arquitetura CQRS.
 - Validators: Estrutura para realizar validações por meio dos fluents validations.
 
+**Core**
+- Auth: Estrura para autenticação com JWT.
+- Entities: Classes que vão representar nossas entidades.
+- Enums: Enumeradores do projeto
+- Repositories: Contrato de interface de todos os repositórios.
+ 
+**Infrastructure**
+- Auth: Lógica para manipular os acessos do usuário na utilização de claims
+- Migrations: Mogração de estrutura c# => Base
+- Persistence:
+  - Configuration: Estrutura de configuração dos campos para base de dados.
+  - Repositories: Repositórios para acesso a dados.
+ 
+Espeero que esteja gostando, venha fazer sua contribuição com o nosso projeto. ❤️
+
   

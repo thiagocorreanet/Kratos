@@ -1,43 +1,43 @@
 ![image](https://github.com/user-attachments/assets/9fde0aae-c661-4e7f-b404-cc10aadaf70b)
 
-## Olá, sejam todos bem-vindos ao nosso projeto Open Source WebAPI KRATOS 🪓
+## Hello, everyone! Welcome to our Open Source project, WebAPI KRATOS. 🪓
 
 
 > [!WARNING]
-> *O que é o projeto Kratos?*
+> **What is the Kratos project?**
 >
-> Uma API poderosa desenvolvida com .NET 8 e arquitetura limpa, seguindo as melhores práticas do mercado para garantir qualidade, escalabilidade e manutenibilidade.
+> A powerful API developed with .NET 8 and clean architecture, following the best industry practices to ensure quality, scalability, and maintainability.
 >
-> A ideia inicial é auxiliar desenvolvedores com operações simples, como a criação de CRUDs, que podem consumir bastante tempo no dia a dia. O foco deste projeto é justamente otimizar o tempo, permitindo que possamos dedicar mais atenção a lógicas mais complexas algo que o Kratos não é capaz de fazer.
+> The initial idea is to assist developers with simple operations, such as creating CRUDs, which can be time-consuming in day-to-day work. The focus of this project is precisely to optimize time, allowing us to dedicate more attention to more complex logic — something that Kratos cannot handle.
 
-Seja qual for a empresa, qual for o segmento o Kratos sempre estará preparado para te auxliar no desenvolvimento com uma performace extramente alta.
+Regardless of the company or the industry, Kratos will always be ready to assist you in development with extremely high performance.
 
-### Estrutura do projeto
+### Project Structure
 
 **API**
-- Controllers: Endpoints do projeto
-- SwaggerExtension: Classe responsável pela configuração personalizada do swagger.
+- **Controllers:** Project Endpoints
+- **SwaggerExtension:** Class responsible for the custom configuration of Swagger.
 
 **Application**
-- Commands: Estrutura para utilizar os comandos da application seja create, update ou delete.
-- Mapping: Classe responsável para fazer o mapeamento dos objetos.
-- Notification: Estrutura da application para notificar a api que algo deu errado e reportar para nossa interface grafica.
-- Queries: Estrutura para utilizar as querys da application para consulta na base de dados, tanto os commands quanto querias fazem parte do padrão arquitetura CQRS.
-- Validators: Estrutura para realizar validações por meio dos fluents validations.
+- **Commands:** Structure to use application commands such as create, update, or delete.
+- **Mapping:** Class responsible for mapping objects.
+- **Notification:** Application structure to notify the API that something went wrong and report it to our graphical interface.
+- **Queries:** Structure to use application queries for database retrieval. Both commands and queries are part of the CQRS architecture pattern.
+- **Validators:** Structure to perform validations using Fluent Validations.
 
 **Core**
-- Auth: Estrura para autenticação com JWT.
-- Entities: Classes que vão representar nossas entidades.
-- Enums: Enumeradores do projeto
-- Repositories: Contrato de interface de todos os repositórios.
+- **Auth:** Structure for authentication with JWT.
+- **Entities:** Classes that will represent our entities.
+- **Enums:** Project Enumerations
+- **Repositories:** Interface contract for all repositories.
  
 **Infrastructure**
-- Auth: Lógica para manipular os acessos do usuário na utilização de claims
-- Migrations: Mogração de estrutura c# => Base
+- Auth: Logic to manage user access using claims.
+- Migrations: EF Migration from C# structure => Database
 - Persistence:
-  - Configuration: Estrutura de configuração dos campos para base de dados.
-  - Repositories: Repositórios para acesso a dados.
+  - Configuration: Configuration structure for database fields.
+  - Repositories: Repositories for data access.
  
-Espeero que esteja gostando, venha fazer sua contribuição com o nosso projeto. ❤️
+Hope you are enjoying it! Come contribute to our project. ❤️
 
   

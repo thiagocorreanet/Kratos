@@ -12,6 +12,9 @@
 
 Regardless of the company or the industry, Kratos will always be ready to assist you in development with extremely high performance.
 
+> [!IMPORTANT]
+> For those who want to follow the development: https://github.com/users/thiagocorreanet/projects/31/views/1
+
 ### Project Structure
 
 **API**

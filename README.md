@@ -1,7 +1,6 @@
-![image](https://github.com/user-attachments/assets/9fde0aae-c661-4e7f-b404-cc10aadaf70b)
-
 ## Hello, everyone! Welcome to our Open Source project, WebAPI KRATOS. 🪓
 
+![image](https://i.postimg.cc/RZ8BS3LQ/kratos-hero.png)
 
 > [!WARNING]
 > **What is the Kratos project?**

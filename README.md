@@ -1,4 +1,6 @@
-![image](https://github.com/user-attachments/assets/9fde0aae-c661-4e7f-b404-cc10aadaf70b)
+
+![image](https://github.com/user-attachments/assets/af617c49-717d-4aef-92cf-7adb3d973728)
+
 
 ## Hello, everyone! Welcome to our Open Source project, WebAPI KRATOS. 🪓
 

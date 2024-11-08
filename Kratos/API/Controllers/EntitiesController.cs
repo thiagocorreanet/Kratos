@@ -6,6 +6,8 @@ using Application.Notification;
 using Application.Queries;
 using Application.Queries.Entitie.GetById;
 using Application.Queries.EntitiyModel.GetAll;
+using Application.Queries.EntitiyModel.GetByIdProperties;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,17 @@ namespace API.Controllers
             var entitie = await _mediator.Send(new QueryEntityGetByIdRequest(id: id));
 
             if(entitie is null)
+                return NotFound();
+
+            return Ok(entitie);
+        }
+
+        [HttpGet("generate-code/{id:int}")]
+        public async Task<ActionResult<string>> GetGenerateCode(int id)
+        {
+            var entitie = await _mediator.Send(new QueryEntityGetByIdPropertiesRequest(id));
+
+            if (entitie is null)
                 return NotFound();
 
             return Ok(entitie);

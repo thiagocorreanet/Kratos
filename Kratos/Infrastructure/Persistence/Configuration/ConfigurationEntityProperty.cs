@@ -49,9 +49,15 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
             .IsRequired()
             .HasColumnType("BIT");
 
+        builder.Property(c => c.QuantityCaracter)
+           .HasColumnName(nameof(EntityProperty.QuantityCaracter))
+           .HasColumnOrder(6)
+           .IsRequired(true)
+           .HasColumnType("INT");
+
         builder.Property(x => x.CreatedAt)
             .HasColumnName("CreatedAt")
-            .HasColumnOrder(6)
+            .HasColumnOrder(7)
             .IsRequired()
             .HasColumnType("DATETIME2")
             .HasDefaultValueSql("GETDATE()")
@@ -59,7 +65,7 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
 
         builder.Property(c => c.AlteredAt)
             .HasColumnName("AlteredAt")
-            .HasColumnOrder(7)
+            .HasColumnOrder(8)
             .IsRequired()
             .HasColumnType("DATETIME2")
             .HasDefaultValueSql("GETDATE()")

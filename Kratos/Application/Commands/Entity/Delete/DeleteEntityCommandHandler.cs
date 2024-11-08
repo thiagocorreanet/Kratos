@@ -1,5 +1,4 @@
 ﻿using Application.Commands.Entitie.Delete;
-using Application.Commands.Entity.Update;
 using Application.Notification;
 using AutoMapper;
 using Core.Repositories;
@@ -11,9 +10,9 @@ namespace Application.Commands.Entity.Delete
     public class DeleteEntityCommandHandler : BaseCQRS, IRequestHandler<DeleteEntityCommandRequest, bool>
     {
         readonly IEntityRepository _repository;
-        readonly ILogger<UpdateEntityCommandHandler> _logger;
+        readonly ILogger<DeleteEntityCommandHandler> _logger;
 
-        public DeleteEntityCommandHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository, ILogger<UpdateEntityCommandHandler> logger) : base(notificationError, iMapper)
+        public DeleteEntityCommandHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository, ILogger<DeleteEntityCommandHandler> logger) : base(notificationError, iMapper)
         {
             _repository = repository;
             _logger = logger;

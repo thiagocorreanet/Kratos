@@ -37,10 +37,14 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
         var generateApplicationCommandUpdateCode = GenerateApplicationCommandUpdate(getEntities, convertClassForSingle);
         var generateApplicationCommandDeleteCode = GenerateApplicationCommandDelete(getEntities, convertClassForSingle);
         var generateApplicationMappings = GenerateApplicationMapping(getEntities, convertClassForSingle);
+        var generateApplicationQueriesEntityGetAllResponse = GenerateApplicationQueryGetAllResponse(getEntities, convertClassForSingle);
+        var generateApplicationQueriesEntityGetAllRequest = GenerateApplicationQueryGetAllRequest(getEntities, convertClassForSingle);
+        var generateApplicationQueriesEntityGetAllHandler = GenerateApplicationQueryGetAllHandler(getEntities, convertClassForSingle);
 
         return $"{generateEntity} \n \n {generateInterfaceRepository} \n \n {generateInfrastructureConfiguration} \n \n {generateInfrastructurePersistenceAndDI}, " +
             $"\n \n {generateInfrastructurePersistenceRepository},  \n \n {generateApplicationCommandsCreate},  \n \n {generateApplicationCommandUpdateCode}," +
-            $"\n \n {generateApplicationCommandDeleteCode}, \n \n {generateApplicationMappings} ";
+            $"\n \n {generateApplicationCommandDeleteCode}, \n \n {generateApplicationMappings}, \n \n {generateApplicationQueriesEntityGetAllResponse}, \n \n {generateApplicationQueriesEntityGetAllRequest}, " +
+            $"\n \n {generateApplicationQueriesEntityGetAllHandler}";
 
     }
 
@@ -56,12 +60,10 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
         stringBuilderEntity.AppendLine("{");
         stringBuilderEntity.AppendLine();
 
-        // Construtor protegido
         stringBuilderEntity.AppendLine($"protected {convertClassForSingle}()");
         stringBuilderEntity.AppendLine("{ }");
         stringBuilderEntity.AppendLine();
 
-        // Construtor público que aceita propriedades
         stringBuilderEntity.Append($"public {convertClassForSingle}(");
         stringBuilderEntity.Append(string.Join(", ", getEntities.PropertyRel.Select(p => $"{p.Type} {p.Name.ToLower()}")));
         stringBuilderEntity.AppendLine(")");
@@ -73,7 +75,6 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
         stringBuilderEntity.AppendLine("}");
         stringBuilderEntity.AppendLine();
 
-        // Propriedades
         foreach (var item in getEntities.PropertyRel)
         {
             stringBuilderEntity.AppendLine($"public {item.Type} {item.Name} {{ get; private set; }}");
@@ -528,5 +529,81 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
         stringBuildeMapping.AppendLine($"#endregion");
 
         return stringBuildeMapping.ToString();
+    }
+
+    private static string GenerateApplicationQueryGetAllResponse(Entity getEntities, string convertClassForSingle)
+    {
+        var stringBuilderQueryGetAll = new StringBuilder();
+        stringBuilderQueryGetAll.AppendLine("////// Camda de application > Queries > GetAll > Response");
+        stringBuilderQueryGetAll.AppendLine("////// Criação da classe Response");
+        stringBuilderQueryGetAll.AppendLine($"namespace Application.Queries.{convertClassForSingle}.GetAll;");
+        stringBuilderQueryGetAll.AppendLine();
+
+        stringBuilderQueryGetAll.AppendLine($"public class Query{convertClassForSingle}GetAllResponse");
+        stringBuilderQueryGetAll.AppendLine("{");
+        stringBuilderQueryGetAll.AppendLine(" public int Id { get; set; }");
+
+        foreach (var property in getEntities.PropertyRel)
+        {
+            stringBuilderQueryGetAll.AppendLine($" public {property.Type} {property.Name} {{ get; set; }}");
+        }
+
+        stringBuilderQueryGetAll.AppendLine("}");
+
+        return stringBuilderQueryGetAll.ToString();
+    }
+
+    private static string GenerateApplicationQueryGetAllRequest(Entity getEntities, string convertClassForSingle)
+    {
+        var stringBuilderQueryGetAllRequest = new StringBuilder();
+
+        stringBuilderQueryGetAllRequest.AppendLine("////// Camda de application > Queries > GetAll > Request");
+        stringBuilderQueryGetAllRequest.AppendLine("////// Criação da classe de request");
+        stringBuilderQueryGetAllRequest.AppendLine("using MediatR;");
+        stringBuilderQueryGetAllRequest.AppendLine();
+
+        stringBuilderQueryGetAllRequest.AppendLine($"namespace Application.Queries.{convertClassForSingle}.GetAll;");
+        stringBuilderQueryGetAllRequest.AppendLine();
+
+        stringBuilderQueryGetAllRequest.AppendLine($"public class Query{convertClassForSingle}GetAllRequest : IRequest<IEnumerable<Query{convertClassForSingle}GetAllResponse>> {{}}");
+
+        return stringBuilderQueryGetAllRequest.ToString();
+
+    }
+
+    private static string GenerateApplicationQueryGetAllHandler(Entity getEntities, string convertClassForSingle)
+    {
+        var stringBuilderQueryGetAllHandler = new StringBuilder();
+
+        stringBuilderQueryGetAllHandler.AppendLine("////// Camda de application > Queries > GetAll > Handler");
+        stringBuilderQueryGetAllHandler.AppendLine("////// Criação da classe do handler");
+        stringBuilderQueryGetAllHandler.AppendLine("using Application.Notification;");
+        stringBuilderQueryGetAllHandler.AppendLine("using AutoMapper;");
+        stringBuilderQueryGetAllHandler.AppendLine("using Core.Repositories;");
+        stringBuilderQueryGetAllHandler.AppendLine("using MediatR;");
+        stringBuilderQueryGetAllHandler.AppendLine();
+
+        stringBuilderQueryGetAllHandler.AppendLine($"namespace Application.Queries.{convertClassForSingle}.GetAll;");
+        stringBuilderQueryGetAllHandler.AppendLine();
+
+        stringBuilderQueryGetAllHandler.AppendLine($"public class Query{convertClassForSingle}GetAllHandler : BaseCQRS, IRequestHandler<Query{convertClassForSingle}GetAllRequest, IEnumerable<Query{convertClassForSingle}GetAllResponse>>");
+        stringBuilderQueryGetAllHandler.AppendLine("{");
+        stringBuilderQueryGetAllHandler.AppendLine("private readonly IEntityRepository _repository;");
+        stringBuilderQueryGetAllHandler.AppendLine();
+
+        stringBuilderQueryGetAllHandler.AppendLine($"public Query{convertClassForSingle}GetAllHandler(INotificationError notificationError, IMapper iMapper, I{convertClassForSingle}Repository repository) : base(notificationError, iMapper)");
+        stringBuilderQueryGetAllHandler.AppendLine("{");
+        stringBuilderQueryGetAllHandler.AppendLine(" _repository = repository;");
+        stringBuilderQueryGetAllHandler.AppendLine("}");
+        stringBuilderQueryGetAllHandler.AppendLine();
+
+        stringBuilderQueryGetAllHandler.AppendLine($"public async Task<IEnumerable<Query{convertClassForSingle}GetAllResponse>> Handle(Query{convertClassForSingle}GetAllRequest request, CancellationToken cancellationToken)");
+        stringBuilderQueryGetAllHandler.AppendLine("{");
+        stringBuilderQueryGetAllHandler.AppendLine($"var get{getEntities.Name} = await _repository.GetAllAsync();");
+        stringBuilderQueryGetAllHandler.AppendLine($"return await MappingList<Query{convertClassForSingle}GetAllResponse>(get{getEntities.Name});");
+        stringBuilderQueryGetAllHandler.AppendLine("}");
+        stringBuilderQueryGetAllHandler.AppendLine("}");
+
+        return stringBuilderQueryGetAllHandler.ToString();
     }
 }

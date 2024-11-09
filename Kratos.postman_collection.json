@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1a15765a-749a-41f0-ace4-036718190914",
+		"_postman_id": "0dc93be8-d6cd-406d-a947-a585a5291cf7",
 		"name": "Kratos",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17262712"
+		"_exporter_id": "39611008"
 	},
 	"item": [
 		{
@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Endereco\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Pessoas\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -115,6 +115,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/api/entities/generate-code/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LocalKratos}}/entities/generate-code/1",
+							"host": [
+								"{{LocalKratos}}"
+							],
+							"path": [
+								"entities",
+								"generate-code",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -205,24 +236,6 @@
 							"path": [
 								"entities-property",
 								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/api/entities-property/{id}",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{LocalKratos}}/entities-property/8",
-							"host": [
-								"{{LocalKratos}}"
-							],
-							"path": [
-								"entities-property",
-								"8"
 							]
 						}
 					},

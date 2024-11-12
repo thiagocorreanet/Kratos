@@ -1,14 +1,13 @@
 ﻿using MediatR;
 
-namespace Application.Queries.Entitie.GetById
-{
-    public class QueryEntityGetByIdRequest : IRequest<QueryEntityGetByIdResponse>
-    {
-        public QueryEntityGetByIdRequest(int id)
-        {
-            Id = id;
-        }
+namespace Application.Queries.Entitie.GetById;
 
-        public int Id { get; set; }
+public class QueryEntityGetByIdRequest : IRequest<QueryEntityGetByIdResponse>
+{
+    public QueryEntityGetByIdRequest(int id)
+    {
+        Id = id;
     }
+
+    public int Id { get; set; }
 }

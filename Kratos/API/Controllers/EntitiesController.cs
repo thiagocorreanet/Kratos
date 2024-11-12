@@ -1,7 +1,6 @@
 ﻿using Application.Commands.Entitie.Delete;
 using Application.Commands.Entity.Create;
 using Application.Commands.Entity.Update;
-using Application.Commands.EntityProperty.Delete;
 using Application.Notification;
 using Application.Queries;
 using Application.Queries.Entitie.GetById;

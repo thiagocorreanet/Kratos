@@ -56,7 +56,7 @@ public class GenerateApplicationCommandUpdate
         stringBuildeCommandUpdate.AppendLine($"private readonly ILogger<Update{convertClassForSingle}CommandHandler> _logger;");
         stringBuildeCommandUpdate.AppendLine();
         
-        stringBuildeCommandUpdate.AppendLine($"public Update{convertClassForSingle}CommandHandler(INotificationError notificationError, IMapper iMapper, I{convertClassForSingle}Repository repository, ILogger<Update{convertClassForSingle}CommandHandler> logger) : base(notificationError, iMapper)");
+        stringBuildeCommandUpdate.AppendLine($"public Update{convertClassForSingle}CommandHandler(INotificationError notificationError, I{convertClassForSingle}Repository repository, ILogger<Update{convertClassForSingle}CommandHandler> logger) : base(notificationError)");
         stringBuildeCommandUpdate.AppendLine("{");
         stringBuildeCommandUpdate.AppendLine(" _repository = repository;");
         stringBuildeCommandUpdate.AppendLine(" _logger = logger;");
@@ -81,7 +81,7 @@ public class GenerateApplicationCommandUpdate
         stringBuildeCommandUpdate.AppendLine();
 
 
-        stringBuildeCommandUpdate.AppendLine($"_repository.Update(await SimpleMapping<Core.Entities.{convertClassForSingle}>(request));");
+        stringBuildeCommandUpdate.AppendLine($"_repository.Update(request.ToEntity(request));");
         stringBuildeCommandUpdate.AppendLine("var result = await _repository.SaveChangesAsync();");
         stringBuildeCommandUpdate.AppendLine();
 

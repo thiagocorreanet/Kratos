@@ -5,26 +5,24 @@ namespace Application.Extension.GenerateApplication;
 
 public class GenerateApplicationQueryGetByIdResponse
 {
-    public static string GenerateCodeApplicationQueryGetByIdResponse(string convertClassForSingle)
+    public static string GenerateCodeApplicationQueryGetByIdResponse(Entity getEntities, string convertClassForSingle)
     {
         var stringBuilderQueryGetByIdResponse = new StringBuilder();
 
-        stringBuilderQueryGetByIdResponse.AppendLine("////// Camada Application > Queries > Pasta com o nome da sua entidade > Get By Id > Response");
+        stringBuilderQueryGetByIdResponse.AppendLine("////// Camada de application > Queries > Dentro da pasta com nome da sua entidade > GetById > Response");
         stringBuilderQueryGetByIdResponse.AppendLine();
 
         stringBuilderQueryGetByIdResponse.AppendLine($"namespace Application.Queries.{convertClassForSingle}.GetById;");
-        stringBuilderQueryGetByIdResponse.AppendLine();
+        stringBuilderQueryGetByIdResponse.AppendLine($"public class Query{convertClassForSingle}GetByIdResponse");
+        stringBuilderQueryGetByIdResponse.AppendLine("{");
+        stringBuilderQueryGetByIdResponse.AppendLine(" public int Id { get; set; } ");
 
-        stringBuilderQueryGetByIdResponse.AppendLine($"public class Query{convertClassForSingle}GetByIdRequest : IRequest<Query{convertClassForSingle}GetByIdResponse>");
-        stringBuilderQueryGetByIdResponse.AppendLine("{");
-        stringBuilderQueryGetByIdResponse.AppendLine($"public Query{convertClassForSingle}GetByIdRequest(int id)");
-        stringBuilderQueryGetByIdResponse.AppendLine("{");
-        stringBuilderQueryGetByIdResponse.AppendLine("Id = id;");
+        foreach (var item in getEntities.PropertyRel)
+        {
+            stringBuilderQueryGetByIdResponse.AppendLine($" public {item.Type} {item.Name} {{ get; set; }}");
+        }
+
         stringBuilderQueryGetByIdResponse.AppendLine("}");
-        stringBuilderQueryGetByIdResponse.AppendLine();
-
-        stringBuilderQueryGetByIdResponse.AppendLine(" public int Id { get; set; }");
-        stringBuilderQueryGetByIdResponse.AppendLine(" }");
 
         return stringBuilderQueryGetByIdResponse.ToString();
     }

@@ -12,18 +12,18 @@ public class GenerateApplicationValidatorUpdate
         stringBuilderUpdateValidator.AppendLine("////// Camada de application > Validators");
         stringBuilderUpdateValidator.AppendLine();
 
-        stringBuilderUpdateValidator.AppendLine($"using Application.Commands.{convertClassForSingle}.Create;");
+        stringBuilderUpdateValidator.AppendLine($"using Application.Commands.{convertClassForSingle}.Update;");
         stringBuilderUpdateValidator.AppendLine("using FluentValidation;");
         stringBuilderUpdateValidator.AppendLine();
 
         stringBuilderUpdateValidator.AppendLine($"namespace Application.Validators.{convertClassForSingle};");
         stringBuilderUpdateValidator.AppendLine();
 
-        stringBuilderUpdateValidator.AppendLine($"public class Create{convertClassForSingle}CommandItemValidator : AbstractValidator<Create{convertClassForSingle}Request>");
+        stringBuilderUpdateValidator.AppendLine($"public class Update{convertClassForSingle}CommandValidator : AbstractValidator<Update{convertClassForSingle}CommandRequest>");
         stringBuilderUpdateValidator.AppendLine("{");
         stringBuilderUpdateValidator.AppendLine();
 
-        stringBuilderUpdateValidator.AppendLine($" public Create{convertClassForSingle}CommandItemValidator()");
+        stringBuilderUpdateValidator.AppendLine($" public Update{convertClassForSingle}CommandValidator()");
         stringBuilderUpdateValidator.AppendLine("{");
         stringBuilderUpdateValidator.AppendLine();
 

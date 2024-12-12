@@ -11,14 +11,6 @@ public class GenerateInfrastructureConfiguration
         int counter = 2;
         var stringBuilderConfiguration = new StringBuilder();
 
-        var mappingOfTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            { "string", "VARCHAR" },
-            { "DateTime", "DATETIME2" },
-            { "bool", "BIT" }
-        };
-
-
         stringBuilderConfiguration.AppendLine("////// Camada Infraestrutura > Dentro da pasta Persistence > Configuration");
         stringBuilderConfiguration.AppendLine();
 
@@ -53,14 +45,14 @@ public class GenerateInfrastructureConfiguration
 
         foreach (var property in getEntities.PropertyRel)
         {
-            typeCustom = mappingOfTypes.TryGetValue(property.Type, out var mappedType)
-                         ? mappedType + (property.Type.Equals("string", StringComparison.OrdinalIgnoreCase) && property.QuantityCaracter > 0 ? $"({property.QuantityCaracter})" : "")
-                         : "VARCHAR(MAX)";
+            // Obtemos o tipo customizado baseado no mapeamento
+            typeCustom = GetMappedType(property.Type, property.QuantityCaracter);
 
+            // Construímos a configuração do mapeamento
             stringBuilderConfiguration.AppendLine($"builder.Property(c => c.{property.Name})");
             stringBuilderConfiguration.AppendLine($"    .HasColumnName(\"{property.Name}\")");
             stringBuilderConfiguration.AppendLine($"    .HasColumnOrder({counter})");
-            stringBuilderConfiguration.AppendLine($"    .IsRequired({(property.IsRequired ? "true" : "false")})");
+            stringBuilderConfiguration.AppendLine($"    .IsRequired({property.IsRequired.ToString().ToLower()})");
             stringBuilderConfiguration.AppendLine($"    .HasColumnType(\"{typeCustom}\");");
             stringBuilderConfiguration.AppendLine();
 
@@ -92,4 +84,31 @@ public class GenerateInfrastructureConfiguration
 
         return stringBuilderConfiguration.ToString();
     }
+
+    private static string GetMappedType(string type, int? quantityCaracter = null)
+    {
+        var mappingOfTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "int", "INT" },
+        { "string", "VARCHAR" },
+        { "decimal", "DECIMAL" },
+        { "bool", "BIT" },
+        { "datetime", "DATETIME" }
+    };
+
+        // Verifica se o tipo está mapeado
+        if (!mappingOfTypes.TryGetValue(type, out var mappedType))
+        {
+            throw new InvalidOperationException($"O tipo '{type}' não está mapeado.");
+        }
+
+        // Se for string, adicionamos o tamanho do campo, se fornecido
+        if (type.Equals("string", StringComparison.OrdinalIgnoreCase) && quantityCaracter.HasValue && quantityCaracter > 0)
+        {
+            return $"{mappedType}({quantityCaracter})";
+        }
+
+        return mappedType;
+    }
+
 }

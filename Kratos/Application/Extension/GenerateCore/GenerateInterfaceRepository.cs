@@ -9,12 +9,12 @@ public class GenerateInterfaceRepository
     {
         var stringBuilderInterfaceRepository = new StringBuilder();
 
-        stringBuilderInterfaceRepository.AppendLine("////// Repositories");
+        stringBuilderInterfaceRepository.AppendLine("////// Abstract");
         stringBuilderInterfaceRepository.AppendLine();
         stringBuilderInterfaceRepository.AppendLine("using Core.Entities;");
         stringBuilderInterfaceRepository.AppendLine();
 
-        stringBuilderInterfaceRepository.AppendLine("namespace Core.Repositories;");
+        stringBuilderInterfaceRepository.AppendLine("namespace Core.Abstract;");
         stringBuilderInterfaceRepository.AppendLine();
 
         stringBuilderInterfaceRepository.AppendLine($"public interface I{convertClassForSingle}Repository : IBaseRepository<{convertClassForSingle}>");

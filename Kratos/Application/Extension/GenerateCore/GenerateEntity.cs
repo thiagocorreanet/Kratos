@@ -26,6 +26,18 @@ public static class GenerateEntity
         stringBuilderEntity.Append(string.Join(", ", getEntities.PropertyRel.Select(p => $"{p.Type} {ToCamelCase(p.Name)}")));
         stringBuilderEntity.AppendLine(")");
         stringBuilderEntity.AppendLine("{");
+        foreach (var item in getEntities.PropertyRel.Where(x => x.IsRequired is true))
+        {
+            stringBuilderEntity.AppendLine($"    {item.Name} = {ToCamelCase(item.Name)};");
+        }
+        stringBuilderEntity.AppendLine("}");
+        stringBuilderEntity.AppendLine();
+
+        stringBuilderEntity.Append($"public {convertClassForSingle}(");
+        stringBuilderEntity.Append("int id,");
+        stringBuilderEntity.Append(string.Join(", ", getEntities.PropertyRel.Select(p => $"{p.Type} {(p.IsRequired is false ? "?" : string.Empty)} {ToCamelCase(p.Name)}")));
+        stringBuilderEntity.AppendLine("): base(id)");
+        stringBuilderEntity.AppendLine("{");
         foreach (var item in getEntities.PropertyRel)
         {
             stringBuilderEntity.AppendLine($"    {item.Name} = {ToCamelCase(item.Name)};");
@@ -35,7 +47,7 @@ public static class GenerateEntity
 
         foreach (var item in getEntities.PropertyRel)
         {
-            stringBuilderEntity.AppendLine($"public {item.Type} {item.Name} {{ get; private set; }}");
+            stringBuilderEntity.AppendLine($"public {item.Type} {(item.IsRequired is false ? "?" : string.Empty)} {item.Name} {{ get; private set; }}");
         }
 
         stringBuilderEntity.AppendLine("}");

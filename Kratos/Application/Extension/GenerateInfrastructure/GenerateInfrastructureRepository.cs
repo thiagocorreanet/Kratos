@@ -14,7 +14,7 @@ public class GenerateInfrastructureRepository
         stringBuildeDbContextAndDI.AppendLine();
 
         stringBuildeDbContextAndDI.AppendLine("using Core.Entities;");
-        stringBuildeDbContextAndDI.AppendLine("using Core.Repositories;");
+        stringBuildeDbContextAndDI.AppendLine("using Core.Abstract;");
         stringBuildeDbContextAndDI.AppendLine();
 
         stringBuildeDbContextAndDI.AppendLine("namespace Infrastructure.Persistence.Repositories;");
@@ -24,7 +24,7 @@ public class GenerateInfrastructureRepository
         stringBuildeDbContextAndDI.AppendLine("{");
         stringBuildeDbContextAndDI.AppendLine();
 
-        stringBuildeDbContextAndDI.AppendLine($" public {convertClassForSingle}Repository(DbContextBetaUp context) : base(context) {{}}");
+        stringBuildeDbContextAndDI.AppendLine($" public {convertClassForSingle}Repository(DbContextProject context) : base(context) {{}}");
         stringBuildeDbContextAndDI.AppendLine("}");
 
 

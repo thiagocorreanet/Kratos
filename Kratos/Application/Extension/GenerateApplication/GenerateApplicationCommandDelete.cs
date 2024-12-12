@@ -34,8 +34,7 @@ public class GenerateApplicationCommandDelete
         stringBuildeCommandUpdate.AppendLine();
 
         stringBuildeCommandUpdate.AppendLine("using Application.Notification;");
-        stringBuildeCommandUpdate.AppendLine("using AutoMapper;");
-        stringBuildeCommandUpdate.AppendLine("using Core.Repositories;");
+        stringBuildeCommandUpdate.AppendLine("using Core.Abstract;");
         stringBuildeCommandUpdate.AppendLine("using MediatR;");
         stringBuildeCommandUpdate.AppendLine("using Microsoft.Extensions.Logging;");
         stringBuildeCommandUpdate.AppendLine();
@@ -49,7 +48,7 @@ public class GenerateApplicationCommandDelete
         stringBuildeCommandUpdate.AppendLine($" private readonly ILogger<Delete{convertClassForSingle}CommandHandler> _logger;");
         stringBuildeCommandUpdate.AppendLine();
 
-        stringBuildeCommandUpdate.AppendLine($"public Delete{convertClassForSingle}CommandHandler(INotificationError notificationError, IMapper iMapper, I{convertClassForSingle}Repository repository, ILogger<Delete{convertClassForSingle}CommandHandler> logger) : base(notificationError, iMapper)");
+        stringBuildeCommandUpdate.AppendLine($"public Delete{convertClassForSingle}CommandHandler(INotificationError notificationError, I{convertClassForSingle}Repository repository, ILogger<Delete{convertClassForSingle}CommandHandler> logger) : base(notificationError, iMapper)");
         stringBuildeCommandUpdate.AppendLine("{");
         stringBuildeCommandUpdate.AppendLine("  _repository = repository;");
         stringBuildeCommandUpdate.AppendLine("   _logger = logger;");

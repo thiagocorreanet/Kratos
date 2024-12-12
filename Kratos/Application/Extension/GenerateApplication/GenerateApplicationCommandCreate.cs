@@ -9,21 +9,49 @@ public class GenerateApplicationCommandCreate
     {
         var stringBuildeCommand = new StringBuilder();
 
-
         stringBuildeCommand.AppendLine("////// Camada de application > Commands pasta com o nome da sua entidade > Pasta Create > Classe request");
         stringBuildeCommand.AppendLine();
 
         stringBuildeCommand.AppendLine("using MediatR;");
-        stringBuildeCommand.AppendLine("namespace Application.Commands.Entity.Create;");
+        stringBuildeCommand.AppendLine($"namespace Application.Commands.{convertClassForSingle}.Create;");
         stringBuildeCommand.AppendLine();
         stringBuildeCommand.AppendLine($"public class Create{convertClassForSingle}CommandRequest : IRequest<bool>");
         stringBuildeCommand.AppendLine("{");
 
-        foreach (var property in getEntities.PropertyRel)
+        // Adiciona as propriedades com a verificação para string
+        foreach (var property in getEntities.PropertyRel.Where(x => x.IsRequired is true))
         {
-            stringBuildeCommand.AppendLine($" public {property.Type} {property.Name} {{get; set; }} = null!;");
+            var nullSafety = property.Type.Equals("string", StringComparison.OrdinalIgnoreCase) ? " = null!;" : string.Empty;
+            stringBuildeCommand.AppendLine($" public {property.Type} {property.Name} {{ get; set; }}{nullSafety}");
         }
 
+        stringBuildeCommand.AppendLine();
+        stringBuildeCommand.AppendLine($" public Core.Entities.{convertClassForSingle} ToEntity(Create{convertClassForSingle}CommandRequest request)");
+        stringBuildeCommand.AppendLine(" {");
+        stringBuildeCommand.AppendLine();
+
+        stringBuildeCommand.AppendLine($"var toEntity = new Core.Entities.{convertClassForSingle}(");
+
+        var requiredProperties = getEntities.PropertyRel.Where(x => x.IsRequired is true).ToList();
+
+        for (int i = 0; i < requiredProperties.Count; i++)
+        {
+            var property = requiredProperties[i];
+            var isLast = i == requiredProperties.Count - 1;
+
+            stringBuildeCommand.AppendLine(isLast
+                ? $" {property.Name} = request.{property.Name}"
+                : $" {property.Name} = request.{property.Name},");
+        }
+
+        stringBuildeCommand.AppendLine(");");
+        stringBuildeCommand.AppendLine();
+
+        stringBuildeCommand.AppendLine("return toEntity;");
+        stringBuildeCommand.AppendLine();
+
+        stringBuildeCommand.AppendLine("}");
+        
         stringBuildeCommand.AppendLine("}");
         stringBuildeCommand.AppendLine();
 
@@ -31,8 +59,7 @@ public class GenerateApplicationCommandCreate
         stringBuildeCommand.AppendLine();
 
         stringBuildeCommand.AppendLine("using Application.Notification;");
-        stringBuildeCommand.AppendLine("using AutoMapper;");
-        stringBuildeCommand.AppendLine("using Core.Repositories;");
+        stringBuildeCommand.AppendLine("using Core.Abstract;");
         stringBuildeCommand.AppendLine("using MediatR;");
         stringBuildeCommand.AppendLine("using Microsoft.Extensions.Logging;");
         stringBuildeCommand.AppendLine();
@@ -48,7 +75,7 @@ public class GenerateApplicationCommandCreate
         stringBuildeCommand.AppendLine($"private ILogger<Create{convertClassForSingle}CommandHandler> _logger;");
         stringBuildeCommand.AppendLine();
 
-        stringBuildeCommand.AppendLine($"public Create{convertClassForSingle}CommandHandler(INotificationError notificationError, IMapper iMapper, I{convertClassForSingle}Repository repository, ILogger<Create{convertClassForSingle}CommandHandler> logger) : base(notificationError, iMapper)");
+        stringBuildeCommand.AppendLine($"public Create{convertClassForSingle}CommandHandler(INotificationError notificationError, I{convertClassForSingle}Repository repository, ILogger<Create{convertClassForSingle}CommandHandler> logger) : base(notificationError)");
         stringBuildeCommand.AppendLine("{");
         stringBuildeCommand.AppendLine("_repository = repository;");
         stringBuildeCommand.AppendLine("_logger = logger;");
@@ -67,7 +94,7 @@ public class GenerateApplicationCommandCreate
         stringBuildeCommand.AppendLine("await _repository.StartTransactionAsync();");
         stringBuildeCommand.AppendLine();
 
-        stringBuildeCommand.AppendLine($" _repository.Add(await SimpleMapping<Core.Entities.{convertClassForSingle}>(request));");
+        stringBuildeCommand.AppendLine("  _repository.Add(request.ToEntity(request));");
         stringBuildeCommand.AppendLine($"  var result = await _repository.SaveChangesAsync();");
         stringBuildeCommand.AppendLine();
 
@@ -93,11 +120,6 @@ public class GenerateApplicationCommandCreate
         stringBuildeCommand.AppendLine("}");
         stringBuildeCommand.AppendLine("}");
 
-
-
-
-
         return stringBuildeCommand.ToString();
     }
-
 }

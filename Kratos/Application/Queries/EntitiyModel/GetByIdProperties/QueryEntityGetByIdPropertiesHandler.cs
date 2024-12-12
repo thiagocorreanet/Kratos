@@ -40,19 +40,18 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
         var generateApplicationCommandUpdateCode = GenerateApplicationCommandUpdate.GenerateCodeApplicationCommandUpdate(getEntities, convertClassForSingle);
         var generateApplicationCommandDeleteCode = GenerateApplicationCommandDelete.GenerateCodeApplicationCommandDelete(convertClassForSingle);
         var generateApplicationQueriesEntityGetAllResponse = GenerateApplicationQueryGetAllResponse.GenerateCodeApplicationQueryGetAllResponse(getEntities, convertClassForSingle);
-        var generateApplicationQueriesEntityGetAllRequest = GenerateApplicationQueryGetAllRequest.GenerateCodeApplicationQueryGetAllRequest(convertClassForSingle);
+        var generateApplicationQueriesEntityGetAllRequest = GenerateApplicationQueryGetAllRequest.GenerateCodeApplicationQueryGetAllRequest(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetAllHandler = GenerateApplicationQueryGetAllHandler.GenerateCodeApplicationQueryGetAllHandler(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetByIdRequest = GenerateApplicationQueryGetByIdRequest.GenerateCodeApplicationQueryGetByIdRequest(convertClassForSingle);
         var generateApplicationQueriesEntityGetByIdResponse = GenerateApplicationQueryGetByIdResponse.GenerateCodeApplicationQueryGetByIdResponse(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetByIdHandler = GenerateApplicationQueryGetByIdHandler.GenerateCodeApplicationQueryGetByIdHandler(getEntities, convertClassForSingle);
-        var generateApplicationMappings = GenerateApplicationMapping.GenerateCodeApplicationMapping(convertClassForSingle);
         var generateApplicationValitorsCreate = GenerateApplicationValidatorCreate.GenerateCodeApplicationValidatorCreate(getEntities, convertClassForSingle);
         var generateApplicationValitorsUpdate = GenerateApplicationValidatorUpdate.GenerateCodeApplicationValidatorUpdate(getEntities, convertClassForSingle);
         var generateApiControllers = GenerateAPIEndpoint.GenerateCodeAPIEndpoint(getEntities, convertClassForSingle);
 
         return $"{generateEntity} \n {generateInterfaceRepository} \n {generateInfrastructureConfiguration} \n {generateInfrastructurePersistenceRepository} \n {generateInfrastructurePersistenceAndDI}" +
             $"\n {generateApplicationCommandsCreate} \n {generateApplicationCommandUpdateCode} \n {generateApplicationCommandDeleteCode} \n {generateApplicationQueriesEntityGetAllResponse} \n {generateApplicationQueriesEntityGetAllRequest} \n {generateApplicationQueriesEntityGetAllHandler}" +
-            $"\n {generateApplicationQueriesEntityGetByIdRequest} \n {generateApplicationQueriesEntityGetByIdResponse} \n {generateApplicationQueriesEntityGetByIdHandler} \n {generateApplicationMappings} \n {generateApplicationValitorsCreate} \n {generateApplicationValitorsUpdate} \n {generateApiControllers}";
+            $"\n {generateApplicationQueriesEntityGetByIdRequest} \n {generateApplicationQueriesEntityGetByIdResponse} \n {generateApplicationQueriesEntityGetByIdHandler} \n {generateApplicationValitorsCreate} \n {generateApplicationValitorsUpdate} \n {generateApiControllers}";
 
     }
 

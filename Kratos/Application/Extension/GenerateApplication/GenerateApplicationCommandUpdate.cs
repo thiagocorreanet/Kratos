@@ -17,7 +17,7 @@ public class GenerateApplicationCommandUpdate
         stringBuildeCommandUpdate.AppendLine("using MediatR;");
         stringBuildeCommandUpdate.AppendLine();
 
-        stringBuildeCommandUpdate.AppendLine("namespace Application.Commands.Entity.Update;");
+        stringBuildeCommandUpdate.AppendLine($"namespace Application.Commands.{convertClassForSingle}.Update;");
         stringBuildeCommandUpdate.AppendLine();
 
         stringBuildeCommandUpdate.AppendLine($" public class Update{convertClassForSingle}CommandRequest : IRequest<bool>");
@@ -34,6 +34,33 @@ public class GenerateApplicationCommandUpdate
             stringBuildeCommandUpdate.AppendLine($" public {property.Type}{isRequired} {property.Name} {{get; set;}}");
         }
 
+        stringBuildeCommandUpdate.AppendLine();
+        stringBuildeCommandUpdate.AppendLine($" public Core.Entities.{convertClassForSingle} ToEntity(Update{convertClassForSingle}CommandRequest request)");
+        stringBuildeCommandUpdate.AppendLine(" {");
+        stringBuildeCommandUpdate.AppendLine();
+
+        stringBuildeCommandUpdate.AppendLine($"var toEntity = new Core.Entities.{convertClassForSingle}(");
+        stringBuildeCommandUpdate.AppendLine(" Id = request.Id,");
+
+        var requiredProperties = getEntities.PropertyRel.ToList();
+
+        for (int i = 0; i < requiredProperties.Count; i++)
+        {
+            var property = requiredProperties[i];
+            var isLast = i == requiredProperties.Count - 1;
+
+            stringBuildeCommandUpdate.AppendLine(isLast
+                ? $" {property.Name} = request.{property.Name}"
+                : $" {property.Name} = request.{property.Name},");
+        }
+
+        stringBuildeCommandUpdate.AppendLine(");");
+        stringBuildeCommandUpdate.AppendLine();
+
+        stringBuildeCommandUpdate.AppendLine(" return toEntity;");
+        stringBuildeCommandUpdate.AppendLine();
+
+        stringBuildeCommandUpdate.AppendLine(" }");
         stringBuildeCommandUpdate.AppendLine(" }");
         stringBuildeCommandUpdate.AppendLine();
 
@@ -41,8 +68,7 @@ public class GenerateApplicationCommandUpdate
         stringBuildeCommandUpdate.AppendLine();
 
         stringBuildeCommandUpdate.AppendLine("using Application.Notification;");
-        stringBuildeCommandUpdate.AppendLine("using AutoMapper;");
-        stringBuildeCommandUpdate.AppendLine("using Core.Repositories;");
+        stringBuildeCommandUpdate.AppendLine("using Core.Abstract;");
         stringBuildeCommandUpdate.AppendLine("using MediatR;");
         stringBuildeCommandUpdate.AppendLine("using Microsoft.Extensions.Logging;");
         stringBuildeCommandUpdate.AppendLine();

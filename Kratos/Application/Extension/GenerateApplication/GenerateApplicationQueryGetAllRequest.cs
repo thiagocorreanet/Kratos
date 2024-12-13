@@ -52,6 +52,7 @@ public class GenerateApplicationQueryGetAllRequest
                 : $" {property.Name} = item.{property.Name},");
         }
 
+        // finalização do foreach
         stringBuilderQueryGetAllRequest.AppendLine("});");
         stringBuilderQueryGetAllRequest.AppendLine("}");
         stringBuilderQueryGetAllRequest.AppendLine();

@@ -13,8 +13,7 @@ public class GenerateApplicationQueryGetAllHandler
         stringBuilderQueryGetAllHandler.AppendLine();
 
         stringBuilderQueryGetAllHandler.AppendLine("using Application.Notification;");
-        stringBuilderQueryGetAllHandler.AppendLine("using AutoMapper;");
-        stringBuilderQueryGetAllHandler.AppendLine("using Core.Repositories;");
+        stringBuilderQueryGetAllHandler.AppendLine("using Core.Abstract;");
         stringBuilderQueryGetAllHandler.AppendLine("using MediatR;");
         stringBuilderQueryGetAllHandler.AppendLine();
 
@@ -26,7 +25,7 @@ public class GenerateApplicationQueryGetAllHandler
         stringBuilderQueryGetAllHandler.AppendLine($"private readonly I{convertClassForSingle}Repository _repository;");
         stringBuilderQueryGetAllHandler.AppendLine();
 
-        stringBuilderQueryGetAllHandler.AppendLine($"public Query{convertClassForSingle}GetAllHandler(INotificationError notificationError, IMapper iMapper, I{convertClassForSingle}Repository repository) : base(notificationError, iMapper)");
+        stringBuilderQueryGetAllHandler.AppendLine($"public Query{convertClassForSingle}GetAllHandler(INotificationError notificationError, I{convertClassForSingle}Repository repository) : base(notificationError)");
         stringBuilderQueryGetAllHandler.AppendLine("{");
         stringBuilderQueryGetAllHandler.AppendLine(" _repository = repository;");
         stringBuilderQueryGetAllHandler.AppendLine("}");
@@ -35,7 +34,7 @@ public class GenerateApplicationQueryGetAllHandler
         stringBuilderQueryGetAllHandler.AppendLine($"public async Task<IEnumerable<Query{convertClassForSingle}GetAllResponse>> Handle(Query{convertClassForSingle}GetAllRequest request, CancellationToken cancellationToken)");
         stringBuilderQueryGetAllHandler.AppendLine("{");
         stringBuilderQueryGetAllHandler.AppendLine($"var get{getEntities.Name} = await _repository.GetAllAsync();");
-        stringBuilderQueryGetAllHandler.AppendLine($"return await MappingList<Query{convertClassForSingle}GetAllResponse>(get{getEntities.Name});");
+        stringBuilderQueryGetAllHandler.AppendLine($"return request.ToResponse(get{getEntities.Name}.ToList());");
         stringBuilderQueryGetAllHandler.AppendLine("}");
         stringBuilderQueryGetAllHandler.AppendLine("}");
 

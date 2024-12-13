@@ -18,7 +18,7 @@ public class GenerateApplicationValidatorCreate
         stringBuilderCreateValidator.AppendLine($"namespace Application.Validators.{convertClassForSingle};");
         stringBuilderCreateValidator.AppendLine();
 
-        stringBuilderCreateValidator.AppendLine($"public class Create{convertClassForSingle}CommandItemValidator : AbstractValidator<Create{convertClassForSingle}Request>");
+        stringBuilderCreateValidator.AppendLine($"public class Create{convertClassForSingle}CommandItemValidator : AbstractValidator<Create{convertClassForSingle}CommandRequest>");
         stringBuilderCreateValidator.AppendLine("{");
         stringBuilderCreateValidator.AppendLine();
 

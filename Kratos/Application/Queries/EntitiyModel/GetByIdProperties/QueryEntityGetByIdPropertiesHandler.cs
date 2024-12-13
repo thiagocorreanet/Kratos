@@ -42,7 +42,7 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
         var generateApplicationQueriesEntityGetAllResponse = GenerateApplicationQueryGetAllResponse.GenerateCodeApplicationQueryGetAllResponse(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetAllRequest = GenerateApplicationQueryGetAllRequest.GenerateCodeApplicationQueryGetAllRequest(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetAllHandler = GenerateApplicationQueryGetAllHandler.GenerateCodeApplicationQueryGetAllHandler(getEntities, convertClassForSingle);
-        var generateApplicationQueriesEntityGetByIdRequest = GenerateApplicationQueryGetByIdRequest.GenerateCodeApplicationQueryGetByIdRequest(convertClassForSingle);
+        var generateApplicationQueriesEntityGetByIdRequest = GenerateApplicationQueryGetByIdRequest.GenerateCodeApplicationQueryGetByIdRequest(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetByIdResponse = GenerateApplicationQueryGetByIdResponse.GenerateCodeApplicationQueryGetByIdResponse(getEntities, convertClassForSingle);
         var generateApplicationQueriesEntityGetByIdHandler = GenerateApplicationQueryGetByIdHandler.GenerateCodeApplicationQueryGetByIdHandler(getEntities, convertClassForSingle);
         var generateApplicationValitorsCreate = GenerateApplicationValidatorCreate.GenerateCodeApplicationValidatorCreate(getEntities, convertClassForSingle);

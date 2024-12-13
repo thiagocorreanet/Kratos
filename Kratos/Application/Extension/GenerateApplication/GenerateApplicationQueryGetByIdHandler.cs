@@ -36,7 +36,7 @@ public class GenerateApplicationQueryGetByIdHandler
         stringBuilderQueryGetByIdHandler.AppendLine($" public async Task<Query{convertClassForSingle}GetByIdResponse> Handle(Query{convertClassForSingle}GetByIdRequest request, CancellationToken cancellationToken)");
         stringBuilderQueryGetByIdHandler.AppendLine(" {");
         stringBuilderQueryGetByIdHandler.AppendLine($" var get{convertClassForSingle}ById = await _repository.GetByIdAsync(request.Id);");
-        stringBuilderQueryGetByIdHandler.AppendLine($" return request.ToModel(get{convertClassForSingle}ById);");
+        stringBuilderQueryGetByIdHandler.AppendLine($" return request.ToResponse(get{convertClassForSingle}ById);");
         stringBuilderQueryGetByIdHandler.AppendLine(" }");
         stringBuilderQueryGetByIdHandler.AppendLine(" }");
 

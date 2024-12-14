@@ -48,7 +48,7 @@ public class GenerateApplicationCommandDelete
         stringBuildeCommandUpdate.AppendLine($" private readonly ILogger<Delete{convertClassForSingle}CommandHandler> _logger;");
         stringBuildeCommandUpdate.AppendLine();
 
-        stringBuildeCommandUpdate.AppendLine($"public Delete{convertClassForSingle}CommandHandler(INotificationError notificationError, I{convertClassForSingle}Repository repository, ILogger<Delete{convertClassForSingle}CommandHandler> logger) : base(notificationError, iMapper)");
+        stringBuildeCommandUpdate.AppendLine($"public Delete{convertClassForSingle}CommandHandler(INotificationError notificationError, I{convertClassForSingle}Repository repository, ILogger<Delete{convertClassForSingle}CommandHandler> logger) : base(notificationError)");
         stringBuildeCommandUpdate.AppendLine("{");
         stringBuildeCommandUpdate.AppendLine("  _repository = repository;");
         stringBuildeCommandUpdate.AppendLine("   _logger = logger;");

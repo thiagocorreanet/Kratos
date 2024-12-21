@@ -4,6 +4,8 @@ namespace Web.Controllers
 {
     public class ProjectsController : Controller
     {
+        //private IMediator _mediator;
+
         [HttpGet("lista-de-projetos")]
         public IActionResult Index()
         {

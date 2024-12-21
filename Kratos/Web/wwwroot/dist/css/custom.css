@@ -1,0 +1,68 @@
+﻿.markdown > table thead th, .table thead th {
+    color: var(--tblr-secondary);
+    background: #dadfe5;
+    font-size: .625rem;
+    font-weight: var(--tblr-font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    line-height: 1rem;
+    color: var(--tblr-secondary);
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    white-space: nowrap;
+}
+
+table.dataTable {
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #dfdbdb;
+}
+
+    table.dataTable.no-footer {
+        border: 1px solid rgba(0.3, 0.3, 0.3, 0.3) !important;
+    }
+
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+    text-align: right;
+    padding-bottom: 20px;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: left;
+    padding-right: 10px;
+}
+
+div.dt-buttons > .dt-button, div.dt-buttons > div.dt-button-split .dt-button {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-left: .167em;
+    margin-right: .167em;
+    margin-bottom: .333em;
+    padding: .5em 1em;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: .88em;
+    line-height: 1.6em;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    background: linear-gradient(to bottom, rgb(0 84 166) 0%, rgb(0 84 166) 100%) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr="rgba(230, 230, 230, 0.1)", EndColorStr="rgba(0, 0, 0, 0.1)");
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    outline: none;
+    text-overflow: ellipsis;
+    color: #fff !important;
+}
+
+   

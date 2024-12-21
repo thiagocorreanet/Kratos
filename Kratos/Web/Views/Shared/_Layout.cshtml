@@ -7,11 +7,14 @@
     <title>@ViewData["Title"] • Kratos</title>
 
     <!-- CSS files -->
-    <link href="~/dist/css/tabler.min.css?1692870487" rel="stylesheet" />
-    <link href="~/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet" />
-    <link href="~/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet" />
-    <link href="~/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet" />
-    <link href="~/dist/css/demo.min.css?1692870487" rel="stylesheet" />
+    <link href="~/dist/css/tabler.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/dist/css/tabler-flags.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/dist/css/tabler-payments.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/dist/css/tabler-vendors.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/dist/css/demo.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/dist/css/custom.css" rel="stylesheet" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     <style>
         @@import url('https://rsms.me/inter/inter.css');
 
@@ -25,7 +28,7 @@
     </style>
 </head>
 <body class=" layout-fluid">
-    <script src="./dist/js/demo-theme.min.js?1692870487"></script>
+    <script src="./dist/js/demo-theme.min.js" asp-append-version="true"></script>
     <div class="page">
         <!-- Navbar -->
         <header class="navbar navbar-expand-md d-print-none">
@@ -93,13 +96,19 @@
     </div>
 
     <!-- Libs JS -->
-    <script src="./dist/libs/apexcharts/dist/apexcharts.min.js?1692870487" defer></script>
-    <script src="./dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1692870487" defer></script>
-    <script src="./dist/libs/jsvectormap/dist/maps/world.js?1692870487" defer></script>
-    <script src="./dist/libs/jsvectormap/dist/maps/world-merc.js?1692870487" defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js?1692870487" defer></script>
+    <script src="~/dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1692870487" defer></script>
+    <script src="~/dist/libs/jsvectormap/dist/maps/world.js?1692870487" defer></script>
+    <script src="~/dist/libs/jsvectormap/dist/maps/world-merc.js?1692870487" defer></script>
     <!-- Tabler Core -->
     <script src="~/dist/js/tabler.min.js?1692870487" defer></script>
     <script src="~/dist/js/demo.min.js?1692870487" defer></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

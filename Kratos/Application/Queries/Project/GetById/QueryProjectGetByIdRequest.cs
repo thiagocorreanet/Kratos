@@ -19,6 +19,8 @@ public class QueryProjectGetByIdRequest : IRequest<QueryProjectGetByIdResponse>
 
         response.Id = Id;
         response.Name = entity.Name;
+        response.CreatedAtShortDate = entity.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss");
+        response.AlteredAtShortDate = entity.AlteredAt.ToString("dd/MM/yyyy HH:mm:ss");
 
         return response;
 

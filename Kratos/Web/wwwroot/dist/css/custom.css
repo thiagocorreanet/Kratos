@@ -64,4 +64,8 @@ div.dt-buttons > .dt-button, div.dt-buttons > div.dt-button-split .dt-button {
     text-overflow: ellipsis;
     color: #fff !important;
 }
+
+.td-custom {
+    border-right: solid 1px #b2b2b2
+}
    

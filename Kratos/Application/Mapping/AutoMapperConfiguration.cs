@@ -24,7 +24,7 @@ namespace Application.Mapping
             CreateMap<Entity, UpdateEntityCommandRequest>().ReverseMap();
             
             CreateMap<Entity, QueryEntityGetAllResponse>().ReverseMap();
-            CreateMap<Entity, QueryEntityGetByIdResponse>().ReverseMap();
+            CreateMap<Entity, Queries.QueryEntityGetByIdResponse>().ReverseMap();
             #endregion
 
             #region Entity Property

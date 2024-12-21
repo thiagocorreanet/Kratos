@@ -8,4 +8,5 @@ public class QueryProjectGetByIdResponse
 
     public string CreatedAtShortDate { get; set; }
     public string AlteredAtShortDate { get; set; }
+
 }

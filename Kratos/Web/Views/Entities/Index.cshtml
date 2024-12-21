@@ -1,4 +1,4 @@
-﻿@model List<QueryProjectGetAllResponse>
+﻿@model List<QueryEntityGetAllResponse>
 
 @{
     ViewData["Title"] = "Index";
@@ -29,7 +29,7 @@
                     <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                        Novo Projeto
+                        Nova Entidade
                     </a>
                 </div>
             </div>
@@ -41,7 +41,7 @@
     <div class="container-xl">
         <div class="card">
             <div class="card-body">
-                <table id="tableProject" class="table table-striped table-hover">
+                <table id="myTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -55,7 +55,7 @@
                                 <td class="td-custom">@item.Name</td>
                                 <td style="width:5%">
                                     <div class="text-center">
-                                        <a href="/consultar-projeto/@item.Id">
+                                        <a href="/consultar-entidade/@item.Id">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
@@ -78,7 +78,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Novo Projeto</h5>
+                <h5 class="modal-title">Nova Entidade</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -88,17 +88,16 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                    <a href="#" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M18 6l-12 12" />
-                            <path d="M6 6l12 12" />
-                        </svg>
-                        Cancelar
-                    </a>
+                
+                <a href="#" class="btn btn-secondary" data-bs-dismiss="modal" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                    Cancelar
                 </a>
-                <a href="#" class="btn btn-primary " data-bs-dismiss="modal" onclick="postModalData()">
+                <a href="#" class="btn btn-primary" data-bs-dismiss="modal" onclick="postModalData()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
@@ -117,9 +116,9 @@
 @await Component.InvokeAsync("VcError")
 
 @section Scripts {
-    <script src="~/dist/js/project/project.js" asp-append-version="true"></script>
+    <script src="~/dist/js/entity/entity.js" asp-append-version="true"></script>
 
     <script>
-        initializeDataTable('#tableProject');
+        initializeDataTable('#myTable');
     </script>
 }

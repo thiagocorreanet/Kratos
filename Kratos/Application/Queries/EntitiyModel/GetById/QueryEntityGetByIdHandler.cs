@@ -21,7 +21,7 @@ namespace Application.Queries.Entitie.GetById
         public async Task<QueryEntityGetByIdResponse> Handle(QueryEntityGetByIdRequest request, CancellationToken cancellationToken)
         {
             var entitieById = await _repository.GetByIdAsync(request.Id);
-            return await SimpleMapping<QueryEntityGetByIdResponse>(entitieById);
+            return request.ToResponse(entitieById);
         }
     }
 }

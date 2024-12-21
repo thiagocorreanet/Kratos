@@ -1,4 +1,5 @@
-﻿using Core.Auth;
+﻿using Core.Abstract;
+using Core.Auth;
 using Core.Repositories;
 
 using Infrastructure.Persistence;
@@ -40,6 +41,7 @@ namespace Infrastructure
             services.AddScoped<IAuditProcessRepository, AuditProcessRepository>();
             services.AddScoped<IEntityRepository, EntityRepository>();
             services.AddScoped<IEntityPropertyRepository, EntityPropertyRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
 
             return services;
         }

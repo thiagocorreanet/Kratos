@@ -15,6 +15,7 @@ namespace Infrastructure.Persistence
         public DbSet<AuditProcess> AuditsProcess => Set<AuditProcess>();
         public DbSet<Entity> Entities => Set<Entity>();
         public DbSet<EntityProperty> EntitiesProperties => Set<EntityProperty>();
+        public DbSet<Project> Projects => Set<Project>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

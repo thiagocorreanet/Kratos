@@ -18,6 +18,7 @@ public class QueryProjectGetAllHandler : BaseCQRS, IRequestHandler<QueryProjectG
     public async Task<IEnumerable<QueryProjectGetAllResponse>> Handle(QueryProjectGetAllRequest request, CancellationToken cancellationToken)
     {
         var getProjects = await _repository.GetAllAsync();
+        getProjects = getProjects.OrderByDescending(x => x.AlteredAt);
         return await MappingList<QueryProjectGetAllResponse>(getProjects);
     }
 }

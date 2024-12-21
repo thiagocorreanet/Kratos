@@ -1,15 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Notification;
+using Application.Queries.Project.GetAll;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
-    public class ProjectsController : Controller
+    public class ProjectsController : MainController
     {
-        //private IMediator _mediator;
+        private IMediator _mediator;
+
+        public ProjectsController(INotificationError notificationError, IMediator mediator) : base(notificationError)
+        {
+            _mediator = mediator;
+        }
 
         [HttpGet("lista-de-projetos")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _mediator.Send(new QueryProjectGetAllRequest()));
         }
 
         [HttpGet("consultar-projeto")]

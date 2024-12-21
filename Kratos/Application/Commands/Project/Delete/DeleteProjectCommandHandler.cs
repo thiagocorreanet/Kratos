@@ -12,7 +12,7 @@ public class DeleteProjectCommandHandler : BaseCQRS, IRequestHandler<DeleteProje
     private readonly IProjectRepository _repository;
     private readonly ILogger<DeleteProjectCommandHandler> _logger;
 
-    public DeleteProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<DeleteProjectCommandHandler> logger, , IMapper iMapper) : base(notificationError, iMapper)
+    public DeleteProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<DeleteProjectCommandHandler> logger, IMapper iMapper) : base(notificationError, iMapper)
     {
         _repository = repository;
         _logger = logger;

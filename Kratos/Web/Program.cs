@@ -1,29 +1,98 @@
-var builder = WebApplication.CreateBuilder(args);
+using Application;
+using Application.Mapping;
+using Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Serilog;
+using System.Text.Json.Serialization;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login";
+        options.LogoutPath = "/logout";
+
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = context =>
+            {
+                var returnUrl = context.Request.Path;
+                context.Response.Redirect($"/login?ReturnUrl={returnUrl}");
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+builder.Services.AddInfrastructure(configuration)
+    .AddApplication();
+
+
+builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration));
+
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
+builder.Host.UseSerilog();
+builder.Services.AddSerilog(builder.Configuration);
+
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Authentication Scheme: {context.Request.Path}");
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+//var builder = WebApplication.CreateBuilder(args);
+
+//builder.Services.AddAuthentication("Cookies")
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/login";
+//        options.LogoutPath = "/logout";
+//    });
+
+//builder.Services.AddControllersWithViews();
+
+//var app = builder.Build();
+
+//app.UseRouting();
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.Run();

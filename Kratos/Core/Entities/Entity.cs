@@ -10,6 +10,11 @@ public class Entity : BaseEntity
         Name = name;
     }
 
+    public Entity(int id, string name) : base(id)
+    {
+        Name = name;
+    }
+
     public string Name { get; private set; } = null!;
     
     // Relation entities

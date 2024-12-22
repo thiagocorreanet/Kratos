@@ -1,6 +1,5 @@
 ﻿using Application.Commands.Login.Create;
 using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 
 using MediatR;
@@ -14,7 +13,7 @@ namespace Application.Commands.Logout.Create
         readonly IAuthRepository _authRepository;
         readonly ILogger<CreateLoginCommandHandler> _logger;
 
-        public CreateLogoutCommandHendler(INotificationError notificationError, IAuthRepository authRepository, ILogger<CreateLoginCommandHandler> logger, IMapper mapper) : base(notificationError, mapper)
+        public CreateLogoutCommandHendler(INotificationError notificationError, IAuthRepository authRepository, ILogger<CreateLoginCommandHandler> logger) : base(notificationError)
         {
             this._authRepository = authRepository;
             _logger = logger;

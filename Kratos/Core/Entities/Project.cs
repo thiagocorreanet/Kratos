@@ -11,5 +11,10 @@ public class Project : BaseEntity
         Name = name;
     }
 
+    public Project(int id, string name) : base(id)
+    {
+        Name = name;
+    }
+
     public string Name { get; private set; }
 }

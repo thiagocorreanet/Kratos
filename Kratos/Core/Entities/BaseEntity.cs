@@ -2,6 +2,13 @@
 {
     public abstract class BaseEntity
     {
+        protected BaseEntity(int id)
+        {
+            Id = id;
+            CreatedAt = DateTime.Now;
+            AlteredAt = DateTime.Now;
+        }
+
         protected BaseEntity()
         {
             CreatedAt = DateTime.Now;

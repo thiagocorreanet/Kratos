@@ -1,5 +1,4 @@
 ﻿using Application.Notification;
-using AutoMapper;
 using Core.Abstract;
 using MediatR;
 
@@ -10,7 +9,7 @@ public class QueryProjectGetByIdHandler : BaseCQRS, IRequestHandler<QueryProject
 
     private readonly IProjectRepository _repository;
 
-    public QueryProjectGetByIdHandler(INotificationError notificationError, IProjectRepository repository, IMapper imapper) : base(notificationError, imapper)
+    public QueryProjectGetByIdHandler(INotificationError notificationError, IProjectRepository repository) : base(notificationError)
     {
         _repository = repository;
     }

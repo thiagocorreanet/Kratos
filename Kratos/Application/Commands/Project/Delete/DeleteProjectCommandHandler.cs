@@ -1,6 +1,5 @@
 ﻿using Application.Commands.Entitie.Delete;
 using Application.Notification;
-using AutoMapper;
 using Core.Abstract;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -12,7 +11,7 @@ public class DeleteProjectCommandHandler : BaseCQRS, IRequestHandler<DeleteProje
     private readonly IProjectRepository _repository;
     private readonly ILogger<DeleteProjectCommandHandler> _logger;
 
-    public DeleteProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<DeleteProjectCommandHandler> logger, IMapper iMapper) : base(notificationError, iMapper)
+    public DeleteProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<DeleteProjectCommandHandler> logger) : base(notificationError)
     {
         _repository = repository;
         _logger = logger;

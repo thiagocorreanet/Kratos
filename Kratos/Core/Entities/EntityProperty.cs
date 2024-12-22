@@ -16,6 +16,15 @@ public class EntityProperty : BaseEntity
         QuantityCaracter = quantityCaracter;
     }
 
+    public EntityProperty(int id, string name, string type, bool isRequired, int entityId, int quantityCaracter) : base(id) 
+    {
+        Name = name;
+        Type = type;
+        IsRequired = isRequired;
+        EntityId = entityId;
+        QuantityCaracter = quantityCaracter;
+    }
+
     public string Name { get; private set; } 
     public string Type { get; private set; } 
     public bool IsRequired { get; private set; }

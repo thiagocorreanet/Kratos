@@ -1,5 +1,4 @@
 ﻿using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 
@@ -9,7 +8,7 @@ public class QueryEntityGetAllHandler : BaseCQRS, IRequestHandler<QueryEntityGet
 {
     readonly IEntityRepository _repository;
 
-    public QueryEntityGetAllHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository) : base(notificationError, iMapper)
+    public QueryEntityGetAllHandler(INotificationError notificationError, IEntityRepository repository) : base(notificationError)
     {
         _repository = repository;
     }
@@ -17,6 +16,6 @@ public class QueryEntityGetAllHandler : BaseCQRS, IRequestHandler<QueryEntityGet
     public async Task<IEnumerable<QueryEntityGetAllResponse>> Handle(QueryEntityGetAllRequest request, CancellationToken cancellationToken)
     {
         var entities = await _repository.GetAllAsync();
-        return await MappingList<QueryEntityGetAllResponse>(entities);
+        return request.ToResponse(entities.ToList());
     }
 }

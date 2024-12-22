@@ -1,6 +1,5 @@
 ﻿using Application.Notification;
 using Application.Queries.EntitiyModel.GetAll;
-using AutoMapper;
 using Core.Abstract;
 using MediatR;
 
@@ -10,7 +9,7 @@ public class QueryProjectGetAllHandler : BaseCQRS, IRequestHandler<QueryProjectG
 {
     private readonly IProjectRepository _repository;
 
-    public QueryProjectGetAllHandler(INotificationError notificationError, IProjectRepository repository, IMapper iMapper) : base(notificationError, iMapper)
+    public QueryProjectGetAllHandler(INotificationError notificationError, IProjectRepository repository) : base(notificationError)
     {
         _repository = repository;
     }
@@ -19,6 +18,6 @@ public class QueryProjectGetAllHandler : BaseCQRS, IRequestHandler<QueryProjectG
     {
         var getProjects = await _repository.GetAllAsync();
         getProjects = getProjects.OrderByDescending(x => x.AlteredAt);
-        return await MappingList<QueryProjectGetAllResponse>(getProjects);
+        return request.ToResponse(getProjects.ToList());
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Application.Notification;
-using AutoMapper;
 using Core.Abstract;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -11,7 +10,7 @@ public class UpdateProjectCommandHandler : BaseCQRS, IRequestHandler<UpdateProje
     private readonly IProjectRepository _repository;
     private readonly ILogger<UpdateProjectCommandHandler> _logger;
 
-    public UpdateProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<UpdateProjectCommandHandler> logger, IMapper iMapper) : base(notificationError, iMapper)
+    public UpdateProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<UpdateProjectCommandHandler> logger) : base(notificationError)
     {
         _repository = repository;
         _logger = logger;
@@ -31,7 +30,7 @@ public class UpdateProjectCommandHandler : BaseCQRS, IRequestHandler<UpdateProje
 
             await _repository.StartTransactionAsync();
 
-            _repository.Update(await SimpleMapping<Core.Entities.Project>(request));
+            _repository.Update(request.ToEntity(request));
             var result = await _repository.SaveChangesAsync();
 
             if (!result)

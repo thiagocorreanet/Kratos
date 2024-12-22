@@ -1,10 +1,8 @@
 ﻿using Application.Commands.Entity.Create;
 using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 
 namespace Application.Commands.EntityProperty.Create;
 
@@ -13,9 +11,8 @@ public class CreateEntityPropertyHandler : BaseCQRS, IRequestHandler<CreateEntit
     private readonly IEntityPropertyRepository _repository;
     private readonly ILogger<CreateEntityCommandHandler> _logger;
 
-    public CreateEntityPropertyHandler(INotificationError notificationError, IMapper iMapper,
-        IEntityPropertyRepository repository, ILogger<CreateEntityCommandHandler> logger) : base(notificationError,
-        iMapper)
+    public CreateEntityPropertyHandler(INotificationError notificationError,
+        IEntityPropertyRepository repository, ILogger<CreateEntityCommandHandler> logger) : base(notificationError)
     {
         _repository = repository;
         _logger = logger;
@@ -27,13 +24,13 @@ public class CreateEntityPropertyHandler : BaseCQRS, IRequestHandler<CreateEntit
 
         try
         {
-            await _repository.StartTransactionAsync();
+            //await _repository.StartTransactionAsync();
 
-            foreach (var item in request.Items)
-            {
-                _repository.Add(await SimpleMapping<Core.Entities.EntityProperty>(item));
-            }
-            
+            //foreach (var item in request.Items)
+            //{
+            //    _repository.Add(await SimpleMapping<Core.Entities.EntityProperty>(item));
+            //}
+
             var result = await _repository.SaveChangesAsync();
 
             if (!result)

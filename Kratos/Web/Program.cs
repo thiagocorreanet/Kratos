@@ -1,5 +1,4 @@
 using Application;
-using Application.Mapping;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
@@ -27,10 +26,6 @@ builder.Services.AddAuthentication("Cookies")
 
 builder.Services.AddInfrastructure(configuration)
     .AddApplication();
-
-
-builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration));
-
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

@@ -1,5 +1,4 @@
 ﻿using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ public class UpdateEntityPropertyHandler : BaseCQRS, IRequestHandler<UpdateEntit
 {
     private readonly IEntityPropertyRepository _repository;
     private readonly ILogger<UpdateEntityPropertyHandler> _logger;
-    
-    public UpdateEntityPropertyHandler(INotificationError notificationError, IMapper iMapper, ILogger<UpdateEntityPropertyHandler> logger, IEntityPropertyRepository repository) : base(notificationError, iMapper)
+
+    public UpdateEntityPropertyHandler(INotificationError notificationError,ILogger<UpdateEntityPropertyHandler> logger, IEntityPropertyRepository repository) : base(notificationError)
     {
         _repository = repository;
         _logger = logger;
@@ -32,7 +31,7 @@ public class UpdateEntityPropertyHandler : BaseCQRS, IRequestHandler<UpdateEntit
             }
 
             await _repository.StartTransactionAsync();
-            _repository.Update(await SimpleMapping<Core.Entities.EntityProperty>(request));
+            _repository.Update(request.ToEntity(request));
             var result = await _repository.SaveChangesAsync();
 
             if (!result)

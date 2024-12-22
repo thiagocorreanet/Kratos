@@ -1,12 +1,11 @@
 using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Commands.Entity.Create;
 
-public class CreateEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<CreateEntityCommandHandler> logger, IMapper iMapper) : BaseCQRS(notificationError, iMapper), IRequestHandler<CreateEntityCommandRequest, bool>
+public class CreateEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<CreateEntityCommandHandler> logger) : BaseCQRS(notificationError), IRequestHandler<CreateEntityCommandRequest, bool>
 {
     public async Task<bool> Handle(CreateEntityCommandRequest request, CancellationToken cancellationToken)
     {
@@ -15,7 +14,7 @@ public class CreateEntityCommandHandler(INotificationError notificationError, IE
         try
         {
             await repository.StartTransactionAsync();
-            repository.Add(await SimpleMapping<Core.Entities.Entity>(request));
+            repository.Add(request.ToEntity(request));
             var result = await repository.SaveChangesAsync();
 
             if (!result)

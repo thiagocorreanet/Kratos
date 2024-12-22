@@ -1,7 +1,6 @@
 ﻿
 using Application.Notification;
 
-using AutoMapper;
 
 using Core.Repositories;
 
@@ -13,7 +12,7 @@ namespace Application.Queries.Entitie.GetById
     {
         private readonly IEntityRepository _repository;
 
-        public QueryEntityGetByIdHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository) : base(notificationError, iMapper)
+        public QueryEntityGetByIdHandler(INotificationError notificationError, IEntityRepository repository) : base(notificationError)
         {
             _repository = repository;
         }

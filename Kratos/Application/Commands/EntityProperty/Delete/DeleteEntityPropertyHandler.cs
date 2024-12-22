@@ -1,5 +1,4 @@
 ﻿using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ public class DeleteEntityPropertyHandler : BaseCQRS, IRequestHandler<DeleteEntit
 {
     private IEntityPropertyRepository _repository;
     private ILogger<DeleteEntityPropertyHandler> _logger;
-    
-    public DeleteEntityPropertyHandler(INotificationError notificationError, IMapper iMapper, IEntityPropertyRepository repository, ILogger<DeleteEntityPropertyHandler> logger) : base(notificationError, iMapper)
+
+    public DeleteEntityPropertyHandler(INotificationError notificationError, IEntityPropertyRepository repository, ILogger<DeleteEntityPropertyHandler> logger) : base(notificationError)
     {
         _repository = repository;
         _logger = logger;
@@ -28,7 +27,7 @@ public class DeleteEntityPropertyHandler : BaseCQRS, IRequestHandler<DeleteEntit
             Notify(message: "Unable to locate the record.");
             return false;
         }
-        
+
         try
         {
             await _repository.StartTransactionAsync();

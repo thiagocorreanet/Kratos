@@ -1,5 +1,4 @@
 using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -11,7 +10,7 @@ namespace Application.Commands.Entity.Update
         private readonly IEntityRepository _repository;
         private readonly ILogger<UpdateEntityCommandHandler> _logger;
 
-        public UpdateEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<UpdateEntityCommandHandler> looger, IMapper mapper) : base(notificationError, mapper)
+        public UpdateEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<UpdateEntityCommandHandler> looger) : base(notificationError)
         {
             _repository = repository;
             _logger = looger;
@@ -32,7 +31,7 @@ namespace Application.Commands.Entity.Update
                 }
 
                 await _repository.StartTransactionAsync();
-                _repository.Update(await SimpleMapping<Core.Entities.Entity>(request));
+                _repository.Update(request.ToEntity(request));
                 var result = await _repository.SaveChangesAsync();
 
                 if (!result)
@@ -47,7 +46,7 @@ namespace Application.Commands.Entity.Update
             }
             catch (Exception ex)
             {
-                 if (transactionStared) await _repository.RollbackTransactionAsync();
+                if (transactionStared) await _repository.RollbackTransactionAsync();
                 _logger.LogCritical($"ops! We were unable to process your request. Details error: {ex.Message}");
                 Notify(message: "Oops! We were unable to process your request.");
             }

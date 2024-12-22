@@ -1,6 +1,5 @@
 ﻿using Application.Commands.Entitie.Delete;
 using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -12,7 +11,7 @@ namespace Application.Commands.Entity.Delete
         readonly IEntityRepository _repository;
         readonly ILogger<DeleteEntityCommandHandler> _logger;
 
-        public DeleteEntityCommandHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository, ILogger<DeleteEntityCommandHandler> logger) : base(notificationError, iMapper)
+        public DeleteEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<DeleteEntityCommandHandler> logger) : base(notificationError)
         {
             _repository = repository;
             _logger = logger;

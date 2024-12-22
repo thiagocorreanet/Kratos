@@ -10,4 +10,16 @@ public class QueryEntityPropertyGetByIdRequest : IRequest<QueryEntityPropertyGet
     }
 
     public int Id { get; set; }
+
+    public QueryEntityPropertyGetByIdResponse ToResponse(Core.Entities.EntityProperty entity)
+    {
+        return new QueryEntityPropertyGetByIdResponse
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            Type = entity.Type,
+            IsRequired = entity.IsRequired,
+            EntityId = entity.EntityId,
+        };
+    }
 }

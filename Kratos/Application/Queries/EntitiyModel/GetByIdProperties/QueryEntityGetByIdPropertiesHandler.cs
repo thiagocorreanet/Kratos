@@ -1,14 +1,8 @@
-﻿
-using System.Text;
-using Application.Extension.GenerateAPI;
+﻿using Application.Extension.GenerateAPI;
 using Application.Extension.GenerateApplication;
 using Application.Extension.GenerateCore;
 using Application.Extension.GenerateInfrastructure;
 using Application.Notification;
-
-using AutoMapper;
-
-using Core.Entities;
 using Core.Repositories;
 
 using Humanizer;
@@ -21,7 +15,7 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
 {
     private readonly IEntityRepository _repository;
 
-    public QueryEntityGetByIdPropertiesHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository) : base(notificationError, iMapper)
+    public QueryEntityGetByIdPropertiesHandler(INotificationError notificationError, IEntityRepository repository) : base(notificationError)
     {
         _repository = repository;
     }
@@ -55,25 +49,25 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
 
     }
 
-  
 
-    
 
-   
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-   
 
-    
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -43,8 +43,20 @@ public class ConfigurationEntity : IEntityTypeConfiguration<Entity>
             .HasDefaultValueSql("GETDATE()")
             .Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
 
+        builder.Property(c => c.ProjectId)
+            .HasColumnName("ProjectId")
+            .HasColumnOrder(5)
+            .IsRequired(true)
+            .HasColumnType("INT");
+
         builder.HasIndex(c => c.Id)
             .HasDatabaseName("IX_ENTITIE_ID")
             .IsUnique();
+
+        builder.HasOne(b => b.ProjectRel)
+            .WithMany(c => c.EntitiesRel)
+            .HasForeignKey(b => b.ProjectId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("FK_ENTITY_PROJECT");
     }
 }

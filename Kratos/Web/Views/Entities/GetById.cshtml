@@ -76,6 +76,19 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="#properties" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-barcode">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                <path d="M8 13h1v3h-1z" />
+                                                <path d="M12 13v3" />
+                                                <path d="M15 13h1v3h-1z" />
+                                            </svg>
+                                            &nbsp; Propriedades
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="#audit" class="nav-link" data-bs-toggle="tab">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-shield-half">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -90,15 +103,42 @@
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="tab-pane active show" id="registration-data">
-                                        <div class="row row-cards">
-                                            <div class="col-sm-6 col-md-3">
+                                        <div class="row g-3 align-items-center">
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <label class="form-label" asp-for="Name">Nome</label>
+                                                    <label class="form-label" asp-for="Name">Nome do campo</label>
                                                     <input type="text" class="form-control" asp-for="Name">
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <label class="form-label" asp-for="ProjectId">Projeto</label>
+                                                    <select class="form-select" asp-for="ProjectId" style="max-width: 100%;">
+                                                        @foreach (var project in Model.ProjectRel)
+                                                        {
+                                                            if (project.Id == Model.ProjectId)
+                                                            {
+                                                                <option value="@project.Id" selected>@project.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@project.Id">@project.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+
+
                                         </div>
+
                                     </div>
+                                    <div class="tab-pane" id="properties">
+                                        @await Component.InvokeAsync("VcEntityProperties")
+                                    </div>
+
                                     <div class="tab-pane" id="audit">
                                         <div class="row row-cards">
                                             <div class="col-sm-6 col-md-6 col-lg-6">

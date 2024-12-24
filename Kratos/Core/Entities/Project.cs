@@ -17,4 +17,7 @@ public class Project : BaseEntity
     }
 
     public string Name { get; private set; }
+
+    // Relation entities
+    public List<Entity> EntitiesRel { get; private set; } = new List<Entity>();
 }

@@ -22,7 +22,7 @@ public class QueryEntityGetByIdPropertiesHandler : BaseCQRS, IRequestHandler<Que
 
     public async Task<string> Handle(QueryEntityGetByIdPropertiesRequest request, CancellationToken cancellationToken)
     {
-        var getEntities = await _repository.GetAllEntityByIdAllPropertityAsync(request.Id);
+        var getEntities = await _repository.GetByIdAsync(request.Id);
         var convertClassForSingle = getEntities.Name.Singularize(true);
 
         var generateEntity = GenerateEntity.GenerateCodeEntity(getEntities, convertClassForSingle);

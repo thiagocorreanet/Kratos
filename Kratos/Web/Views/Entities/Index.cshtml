@@ -1,7 +1,7 @@
-﻿@model List<QueryEntityGetAllResponse>
+﻿@model QueryEntityGetAllResponse
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Consulta de entidades";
 }
 
 <div class="page-header d-print-none">
@@ -17,10 +17,10 @@
                         <path d="M15 16l4 -4" />
                         <path d="M15 8l4 4" />
                     </svg>
-                    <a href="#">Lista de projetos</a>
+                    <a href="#">Lista de entidades</a>
                 </div>
                 <h2 class="page-title">
-                    Projetos
+                    Entidades
                 </h2>
             </div>
             <!-- Page title actions -->
@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.OrderByDescending(x => x.AlteredAt))
+                        @foreach (var item in Model.QueryEntityGetAllResponseItem.OrderByDescending(x => x.AlteredAt))
                         {
                             <tr>
                                 <td class="td-custom">@item.Name</td>
@@ -82,14 +82,31 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Nome</label>
-                    <input id="Name" type="text" class="form-control" required>
+                <div class="row row-cards g-3 align-items-center">
+                    <div class="col-md-5">
+                        <div class="mb-3">
+                            <label class="form-label">Nome do campo</label>
+                            <input type="text" class="form-control" id="Name">
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="mb-3">
+                            <label class="form-label">Projeto</label>
+                            <select class="form-select" id="selectProject">
+                                @foreach (var project in Model.ProjectRel)
+                                {
+                                    <option value="@project.Id">@project.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
-                
-                <a href="#" class="btn btn-secondary" data-bs-dismiss="modal" >
+
+                <a href="#" class="btn btn-secondary" data-bs-dismiss="modal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M18 6l-12 12" />

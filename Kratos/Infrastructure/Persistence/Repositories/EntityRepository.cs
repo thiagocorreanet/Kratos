@@ -11,14 +11,14 @@ namespace Infrastructure.Persistence.Repositories
         {
         }
 
-        public async Task<Entity> GetAllEntityByIdAllPropertityAsync(int id)
-        {
-            var getEntityById = await _dbSet
-                .AsNoTracking()
-                .Include(x => x.PropertyRel)
-                .SingleOrDefaultAsync(x => x.Id == id);
+        //public async Task<Entity> GetAllEntityByIdAllPropertityAsync(int id)
+        //{
+        //    var getEntityById = await _dbSet
+        //        .AsNoTracking()
+        //        .Include(x => x.PropertyRel)
+        //        .SingleOrDefaultAsync(x => x.Id == id);
 
-            return getEntityById;
-        }
+        //    return getEntityById;
+
     }
 }

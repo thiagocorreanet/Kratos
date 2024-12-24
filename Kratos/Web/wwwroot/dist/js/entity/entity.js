@@ -1,8 +1,10 @@
 ﻿function postModalData() {
     const name = document.getElementById('Name').value.trim();
+    const projectId = document.getElementById('selectProject').value;
 
     const data = {
-        name: name
+        name: name,
+        projectId: projectId
     };
 
     fetch("/entities/add", {
@@ -53,10 +55,12 @@
 function putData() {
     const id = document.getElementById('Id').value.trim();
     const name = document.getElementById('Name').value.trim();
+    const projectId = document.getElementById('ProjectId').value;
 
     const data = {
         id: id,
-        name: name
+        name: name,
+        projectId: projectId
     };
 
     fetch("/alterar-entidade/" + id, {

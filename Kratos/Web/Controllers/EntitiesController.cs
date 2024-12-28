@@ -3,8 +3,8 @@ using Application.Commands.Entity.Create;
 using Application.Commands.Entity.Update;
 using Application.Commands.Project.Update;
 using Application.Notification;
-using Application.Queries.Entitie.GetById;
 using Application.Queries.EntitiyModel.GetAll;
+using Application.Queries.EntitiyModel.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

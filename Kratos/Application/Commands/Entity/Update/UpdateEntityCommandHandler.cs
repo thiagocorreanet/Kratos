@@ -3,55 +3,79 @@ using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Commands.Entity.Update
+namespace Application.Commands.Entity.Update;
+
+public class UpdateEntityCommandHandler : BaseCQRS, IRequestHandler<UpdateEntityCommandRequest, bool>
 {
-    public class UpdateEntityCommandHandler : BaseCQRS, IRequestHandler<UpdateEntityCommandRequest, bool>
+    private readonly IEntityRepository _repository;
+    private readonly ILogger<UpdateEntityCommandHandler> _logger;
+
+    public UpdateEntityCommandHandler(
+        INotificationError notificationError,
+        IEntityRepository repository,
+        ILogger<UpdateEntityCommandHandler> logger
+    ) : base(notificationError)
     {
-        private readonly IEntityRepository _repository;
-        private readonly ILogger<UpdateEntityCommandHandler> _logger;
+        _repository = repository;
+        _logger = logger;
+    }
 
-        public UpdateEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<UpdateEntityCommandHandler> looger) : base(notificationError)
+    public async Task<bool> Handle(UpdateEntityCommandRequest request, CancellationToken cancellationToken)
+    {
+        bool transactionStarted = false;
+
+        try
         {
-            _repository = repository;
-            _logger = looger;
-        }
+            var entity = await _repository.GetByIdAsync(request.Id);
 
-        public async Task<bool> Handle(UpdateEntityCommandRequest request, CancellationToken cancellationToken)
-        {
-            var transactionStared = true;
-
-            try
+            if (entity is null)
             {
-                var entitie = await _repository.GetByIdAsync(request.Id);
-
-                if (entitie is null)
-                {
-                    Notify(message: "Unable to locate the record.");
-                    return false;
-                }
-
-                await _repository.StartTransactionAsync();
-                _repository.Update(request.ToEntity(request));
-                var result = await _repository.SaveChangesAsync();
-
-                if (!result)
-                {
-                    Notify("Oops! We couldn't save your record. Please try again.");
-                    await _repository.RollbackTransactionAsync();
-                    return false;
-                }
-
-                await _repository.CommitTransactionAsync();
-
-            }
-            catch (Exception ex)
-            {
-                if (transactionStared) await _repository.RollbackTransactionAsync();
-                _logger.LogCritical($"ops! We were unable to process your request. Details error: {ex.Message}");
-                Notify(message: "Oops! We were unable to process your request.");
+                Notify("Unable to locate the record.");
+                return false;
             }
 
+            transactionStarted = await StartTransactionAsync();
+
+            var result = await UpdateEntityAsync(entity, request);
+            if (!result) return RollbackWithError("Unable to update the record. Please try again.");
+
+            await CommitTransactionAsync();
             return true;
         }
+        catch (Exception ex)
+        {
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
+        }
+    }
+
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
+        return true;
+    }
+
+    private async Task<bool> UpdateEntityAsync(Core.Entities.Entity entity, UpdateEntityCommandRequest request)
+    {
+        _repository.Update(request.ToEntity(request));
+        return await _repository.SaveChangesAsync();
+    }
+
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await _repository.RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error while updating entity. Details: {Message}", ex.Message);
+        Notify("Oops! We were unable to process your request.");
+    }
+
+    private bool RollbackWithError(string message)
+    {
+        Notify(message);
+        return false;
     }
 }

@@ -15,7 +15,7 @@ public class QueryEntityPropertyGetAllHandler : BaseCQRS, IRequestHandler<QueryE
 
     public async Task<IEnumerable<QueryEntityPropertyGetAllResponse>> Handle(QueryEntityPropertyGetAllRequest request, CancellationToken cancellationToken)
     {
-        var getList = await _repository.GetAllAsync();
+        var getList = await _repository.GetAllTypeDataAsync();
         return request.ToResponse(getList.ToList());
     }
 }

@@ -123,7 +123,7 @@ function deleteData() {
                 modalSuccess.show();
 
                 document.getElementById('btn-reload').addEventListener('click', function () {
-                    window.location.href = "/lista-de-projetos";
+                    window.location.href = "/lista-de-entidades";
                 });
             } else {
                 const modalDanger = new bootstrap.Modal(document.getElementById('modal-danger'));

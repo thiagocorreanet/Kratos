@@ -1,7 +1,6 @@
 ﻿using Core.Entities;
-using Core.Repositories;
 
-namespace Core.Abstract;
+namespace Core.Repositories;
 
 public interface IProjectRepository : IBaseRepository<Project>
 { }

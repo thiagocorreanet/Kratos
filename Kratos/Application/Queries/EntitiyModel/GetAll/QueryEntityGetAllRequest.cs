@@ -1,33 +1,34 @@
-﻿using Application.Queries.Project.GetAll;
+﻿using Application.Queries.EntityModel.GetAll;
+using Application.Queries.Project.GetAll;
+using Azure.Core;
 using MediatR;
 
 namespace Application.Queries.EntitiyModel.GetAll;
 
 public class QueryEntityGetAllRequest : IRequest<QueryEntityGetAllResponse>
 {
-    public QueryEntityGetAllResponse ToResponse(List<Core.Entities.Entity> entity, List<Core.Entities.Project> entityProject)
+    public QueryEntityGetAllResponse ToResponse(List<Core.Entities.Entity> entities, List<Core.Entities.Project> projects)
     {
-        QueryEntityGetAllResponse queryEntityGetAllResponse = new QueryEntityGetAllResponse();
-
-        foreach (var item in entity)
+        var queryEntityGetAllResponse = new QueryEntityGetAllResponse
         {
-            queryEntityGetAllResponse.QueryEntityGetAllResponseItem.Add(new QueryEntityGetAllResponseItem
-            {
-                Id = item.Id,
-                Name = item.Name,
-            });
-        }
+            Entities = entities
+                .OrderByDescending(entity => entity.AlteredAt) 
+                .Select(entity => new EntityResponseItem
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    ProjectName = entity.ProjectRel?.Name ?? string.Empty, 
+                }).ToList(),
 
-        foreach (var project in entityProject)
-        {
-            queryEntityGetAllResponse.ProjectRel.Add(new QueryProjectGetAllResponse
+            ProjectRel = projects.Select(project => new QueryProjectGetAllResponse
             {
                 Id = project.Id,
                 Name = project.Name,
-            });
-        }
+            }).ToList()
+        };
 
         return queryEntityGetAllResponse;
     }
+
 }
 

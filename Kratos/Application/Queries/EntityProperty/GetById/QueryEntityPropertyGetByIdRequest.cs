@@ -17,9 +17,10 @@ public class QueryEntityPropertyGetByIdRequest : IRequest<QueryEntityPropertyGet
         {
             Id = entity.Id,
             Name = entity.Name,
-            Type = entity.Type,
+            TypeDataId = entity.TypeDataId,
             IsRequired = entity.IsRequired,
             EntityId = entity.EntityId,
+            IsRequiredRel = entity.IsRequiredRel,
         };
     }
 }

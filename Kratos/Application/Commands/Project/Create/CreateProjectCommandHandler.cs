@@ -1,5 +1,5 @@
 ﻿using Application.Notification;
-using Core.Abstract;
+using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -19,32 +19,55 @@ public class CreateProjectCommandHandler : BaseCQRS, IRequestHandler<CreateProje
 
     public async Task<bool> Handle(CreateProjectCommandRequest request, CancellationToken cancellationToken)
     {
-        const bool transactionStared = true;
-
+        bool transactionStarted = false;
         try
         {
+            transactionStarted = await StartTransactionAsync();
 
-            await _repository.StartTransactionAsync();
-
-            _repository.Add(request.ToEntity(request));
-            var result = await _repository.SaveChangesAsync();
-
+            var result = await SaveProjectAsync(request);
             if (!result)
             {
-                Notify(message: "Oops! We couldn't save your record. Please try again.");
-                await _repository.RollbackTransactionAsync();
+                await RollbackTransactionAsync();
+                Notify("Couldn't save your record. Please try again.");
                 return false;
             }
-            await _repository.CommitTransactionAsync();
-        }
 
+            await CommitTransactionAsync();
+            return true;
+        }
         catch (Exception ex)
         {
-            if (transactionStared) await _repository.RollbackTransactionAsync();
-            _logger.LogCritical("Ops! We were unable to process your request.Details error: { ErrorMessage}", ex.Message);
-            Notify("Oops! We were unable to process your request.");
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
         }
-
+    }
+    
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
         return true;
+    }
+
+    private async Task<bool> SaveProjectAsync(CreateProjectCommandRequest request)
+    {
+        _repository.Add(request.ToEntity(request));
+        return await _repository.SaveChangesAsync();
+    }
+
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+
+    private async Task RollbackTransactionAsync()
+    {
+        await _repository.RollbackTransactionAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error during CreateEntityCommandHandler execution.");
+        Notify("An unexpected error occurred. Please contact support.");
     }
 }

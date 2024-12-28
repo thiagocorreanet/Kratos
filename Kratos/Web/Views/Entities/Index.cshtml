@@ -45,14 +45,16 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
+                            <th>Projeto</th>
                             <th class="text-center">Consultar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.QueryEntityGetAllResponseItem.OrderByDescending(x => x.AlteredAt))
+                        @foreach (var item in Model.Entities)
                         {
                             <tr>
                                 <td class="td-custom">@item.Name</td>
+                                <td class="td-custom">@item.ProjectName</td>
                                 <td style="width:5%">
                                     <div class="text-center">
                                         <a href="/consultar-entidade/@item.Id">

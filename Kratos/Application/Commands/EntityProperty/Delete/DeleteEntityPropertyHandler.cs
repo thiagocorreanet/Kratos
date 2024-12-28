@@ -18,38 +18,60 @@ public class DeleteEntityPropertyHandler : BaseCQRS, IRequestHandler<DeleteEntit
 
     public async Task<bool> Handle(DeleteEntityPropertyRequest request, CancellationToken cancellationToken)
     {
-        const bool transactionStared = true;
+        bool transactionStarted = false;
 
-        var entityPropertyById = await _repository.GetByIdAsync(request.Id);
+        var entityProperty = await _repository.GetByIdAsync(request.Id);
 
-        if (entityPropertyById is null)
+        if (entityProperty is null)
         {
-            Notify(message: "Unable to locate the record.");
+            Notify("Unable to locate the record.");
             return false;
         }
 
         try
         {
-            await _repository.StartTransactionAsync();
-            _repository.Delete(entityPropertyById);
-            var result = await _repository.SaveChangesAsync();
+            transactionStarted = await StartTransactionAsync();
 
-            if (!result)
-            {
-                Notify("Oops! We couldn't save your record. Please try again.");
-                await _repository.RollbackTransactionAsync();
-                return false;
-            }
+            var result = await DeleteEntityPropertyAsync(entityProperty);
+            if (!result) return RollbackWithError("Unable to delete the record. Please try again.");
 
-            await _repository.CommitTransactionAsync();
+            await CommitTransactionAsync();
+            return true;
         }
         catch (Exception ex)
         {
-            if (transactionStared) await _repository.RollbackTransactionAsync();
-            _logger.LogCritical($"ops! We were unable to process your request. Details error: {ex.Message}");
-            Notify(message: "Oops! We were unable to process your request.");
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
         }
-
+    }
+    
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
         return true;
+    }
+    
+    private async Task<bool> DeleteEntityPropertyAsync(Core.Entities.EntityProperty entityProperty)
+    {
+        _repository.Delete(entityProperty);
+        return await _repository.SaveChangesAsync();
+    }
+    
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+    
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await _repository.RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error while deleting entity. Details: {Message}", ex.Message);
+        Notify("Oops! We were unable to process your request.");
+    }
+    
+    private bool RollbackWithError(string message)
+    {
+        Notify(message);
+        return false;
     }
 }

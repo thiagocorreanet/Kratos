@@ -1,6 +1,6 @@
 ﻿using Application.Commands.Entitie.Delete;
 using Application.Notification;
-using Core.Abstract;
+using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -19,38 +19,60 @@ public class DeleteProjectCommandHandler : BaseCQRS, IRequestHandler<DeleteProje
 
     public async Task<bool> Handle(DeleteProjectCommandRequest request, CancellationToken cancellationToken)
     {
-        bool transactionStared = true;
+        bool transactionStarted = false;
 
-        var getByIdProject = await _repository.GetByIdAsync(request.Id);
+        var getProjectById = await _repository.GetByIdAsync(request.Id);
 
-        if (getByIdProject is null)
+        if (getProjectById is null)
         {
-            Notify(message: "Unable to locate the record.");
+            Notify("Unable to locate the record.");
             return false;
         }
 
         try
         {
-            await _repository.StartTransactionAsync();
-            _repository.Delete(getByIdProject);
+            transactionStarted = await StartTransactionAsync();
 
-            var result = await _repository.SaveChangesAsync();
+            var result = await DeleteProjectAsync(getProjectById);
+            if (!result) return RollbackWithError("Unable to delete the record. Please try again.");
 
-            if (!result)
-            {
-                Notify("Oops! We couldn't save your record. Please try again.");
-                await _repository.RollbackTransactionAsync();
-                return false;
-            }
-
-            await _repository.CommitTransactionAsync();
+            await CommitTransactionAsync();
+            return true;
         }
         catch (Exception ex)
         {
-            if (transactionStared) await _repository.RollbackTransactionAsync();
-            _logger.LogCritical($"ops! We were unable to process your request. Details error: {ex.Message}");
-            Notify(message: "Oops! We were unable to process your request.");
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
         }
+    }
+    
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
         return true;
+    }
+
+    private async Task<bool> DeleteProjectAsync(Core.Entities.Project project)
+    {
+        _repository.Delete(project);
+        return await _repository.SaveChangesAsync();
+    }
+
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await _repository.RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error while deleting project. Details: {Message}", ex.Message);
+        Notify("Oops! We were unable to process your request.");
+    }
+
+    private bool RollbackWithError(string message)
+    {
+        Notify(message);
+        return false;
     }
 }

@@ -7,6 +7,9 @@ namespace Infrastructure.Persistence.Configuration;
 
 public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProperty>
 {
+    private const string ForeignKeyTypeData = "FK_ENTITYPROPERTY_TYPEDATA";
+    private const string ForeignKeyEntity = "FK_ENTITY_ENTITYPROPERTY";
+    
    public void Configure(EntityTypeBuilder<EntityProperty> builder)
     {
         builder.ToTable("EntityProperties");
@@ -22,26 +25,20 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
         builder.Property(c => c.EntityId) 
             .HasColumnName(nameof(EntityProperty.EntityId))
             .HasColumnOrder(2)
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnType("INT");
-
-        builder.HasOne(c => c.EntityRel) 
-            .WithMany(e => e.PropertyRel) 
-            .HasForeignKey(c => c.EntityId) 
-            .HasConstraintName("FK_ENTITY_ENTITYPROPERTY") 
-            .OnDelete(DeleteBehavior.Cascade); 
 
         builder.Property(c => c.Name)
             .HasColumnName(nameof(EntityProperty.Name))
             .HasColumnOrder(3)
             .IsRequired()
-            .HasColumnType("VARCHAR(50)");
+            .HasColumnType("VARCHAR(100)");
 
-        builder.Property(c => c.Type)
-            .HasColumnName(nameof(EntityProperty.Type))
+        builder.Property(c => c.TypeDataId)
+            .HasColumnName(nameof(EntityProperty.TypeDataId))
             .HasColumnOrder(4)
-            .IsRequired()
-            .HasColumnType("VARCHAR(50)");
+            .IsRequired(true)
+            .HasColumnType("INT");
 
         builder.Property(c => c.IsRequired)
             .HasColumnName(nameof(EntityProperty.IsRequired))
@@ -49,8 +46,8 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
             .IsRequired()
             .HasColumnType("BIT");
 
-        builder.Property(c => c.QuantityCaracter)
-           .HasColumnName(nameof(EntityProperty.QuantityCaracter))
+        builder.Property(c => c.PropertyMaxLength)
+           .HasColumnName(nameof(EntityProperty.PropertyMaxLength))
            .HasColumnOrder(6)
            .IsRequired(true)
            .HasColumnType("INT");
@@ -70,6 +67,31 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
             .HasColumnType("DATETIME2")
             .HasDefaultValueSql("GETDATE()")
             .Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
+        
+        builder.Property(c => c.IsRequiredRel)
+            .HasColumnName(nameof(EntityProperty.IsRequiredRel))
+            .HasColumnOrder(9)
+            .IsRequired()
+            .HasColumnType("BIT");
+        
+        builder.Property(c => c.TypeRel)
+            .HasColumnName(nameof(EntityProperty.TypeRel))
+            .HasColumnOrder(10)
+            .IsRequired()
+            .HasColumnType("VARCHAR(50)");
+        
+        builder.HasOne(b => b.TypeDataRel)
+            .WithMany(c => c.PropertiesRel)
+            .HasForeignKey(b => b.TypeDataId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName(ForeignKeyTypeData);
+        
+        builder.HasOne(c => c.EntityRel) 
+            .WithMany(e => e.PropertyRel) 
+            .HasForeignKey(c => c.EntityId) 
+            .HasConstraintName(ForeignKeyEntity) 
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade); 
 
     }
 }

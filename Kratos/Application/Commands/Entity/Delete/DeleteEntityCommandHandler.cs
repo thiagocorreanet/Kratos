@@ -4,56 +4,79 @@ using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Commands.Entity.Delete
+namespace Application.Commands.Entity.Delete;
+
+public class DeleteEntityCommandHandler : BaseCQRS, IRequestHandler<DeleteEntityCommandRequest, bool>
 {
-    public class DeleteEntityCommandHandler : BaseCQRS, IRequestHandler<DeleteEntityCommandRequest, bool>
+    private readonly IEntityRepository _repository;
+    private readonly ILogger<DeleteEntityCommandHandler> _logger;
+
+    public DeleteEntityCommandHandler(
+        INotificationError notificationError,
+        IEntityRepository repository,
+        ILogger<DeleteEntityCommandHandler> logger
+    ) : base(notificationError)
     {
-        readonly IEntityRepository _repository;
-        readonly ILogger<DeleteEntityCommandHandler> _logger;
+        _repository = repository;
+        _logger = logger;
+    }
 
-        public DeleteEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<DeleteEntityCommandHandler> logger) : base(notificationError)
+    public async Task<bool> Handle(DeleteEntityCommandRequest request, CancellationToken cancellationToken)
+    {
+        bool transactionStarted = false;
+
+        var entity = await _repository.GetByIdAsync(request.Id);
+
+        if (entity is null)
         {
-            _repository = repository;
-            _logger = logger;
+            Notify("Unable to locate the record.");
+            return false;
         }
 
-        public async Task<bool> Handle(DeleteEntityCommandRequest request, CancellationToken cancellationToken)
+        try
         {
-            bool transactionStared = true;
+            transactionStarted = await StartTransactionAsync();
 
-            var entitie = await _repository.GetByIdAsync(request.Id);
+            var result = await DeleteEntityAsync(entity);
+            if (!result) return RollbackWithError("Unable to delete the record. Please try again.");
 
-            if (entitie is null)
-            {
-                Notify(message: "Unable to locate the record.");
-                return false;
-            }
-
-            try
-            {
-                await _repository.StartTransactionAsync();
-                _repository.Delete(entitie);
-
-                var result = await _repository.SaveChangesAsync();
-
-                if (!result)
-                {
-                    Notify("Oops! We couldn't save your record. Please try again.");
-                    await _repository.RollbackTransactionAsync();
-                    return false;
-                }
-
-                await _repository.CommitTransactionAsync();
-            }
-            catch (Exception ex)
-            {
-                if (transactionStared) await _repository.RollbackTransactionAsync();
-                _logger.LogCritical($"ops! We were unable to process your request. Details error: {ex.Message}");
-                Notify(message: "Oops! We were unable to process your request.");
-            }
-
+            await CommitTransactionAsync();
             return true;
-
         }
+        catch (Exception ex)
+        {
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
+        }
+    }
+
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
+        return true;
+    }
+
+    private async Task<bool> DeleteEntityAsync(Core.Entities.Entity entity)
+    {
+        _repository.Delete(entity);
+        return await _repository.SaveChangesAsync();
+    }
+
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await _repository.RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error while deleting entity. Details: {Message}", ex.Message);
+        Notify("Oops! We were unable to process your request.");
+    }
+
+    private bool RollbackWithError(string message)
+    {
+        Notify(message);
+        return false;
     }
 }

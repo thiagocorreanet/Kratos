@@ -1,5 +1,5 @@
 ﻿using Application.Notification;
-using Core.Abstract;
+using Core.Repositories;
 using MediatR;
 
 namespace Application.Queries.Project.GetById;

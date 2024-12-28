@@ -68,4 +68,8 @@ div.dt-buttons > .dt-button, div.dt-buttons > div.dt-button-split .dt-button {
 .td-custom {
     border-right: solid 1px #b2b2b2
 }
+
+.hr, hr {
+    margin: 1rem 0 !important;
+}
    

@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System.Xml.Linq;
+using Application.Queries.TypeData.GetAll;
+using MediatR;
 
 namespace Application.Queries.EntityProperty.GetAll;
 
@@ -6,21 +8,14 @@ public class QueryEntityPropertyGetAllRequest : IRequest<IEnumerable<QueryEntity
 {
     public List<QueryEntityPropertyGetAllResponse> ToResponse(List<Core.Entities.EntityProperty> entities)
     {
-        List<QueryEntityPropertyGetAllResponse> queryEntityPropertyGetAllResponse = new List<QueryEntityPropertyGetAllResponse>();
-
-        foreach (var entity in entities)
+        return entities.Select(e => new QueryEntityPropertyGetAllResponse
         {
-            queryEntityPropertyGetAllResponse.Add(new QueryEntityPropertyGetAllResponse
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Type = entity.Type, 
-                IsRequired = entity.IsRequired,
-                EntityId = entity.EntityId,
-            });
-        }
-
-        return queryEntityPropertyGetAllResponse;
+            Id = e.Id,
+            Name = e.Name,
+            TypeDataId = e.TypeDataId,
+            IsRequired = e.IsRequired,
+            EntityId = e.EntityId,
+            TypeDataDescription = e.TypeDataRel?.Name ?? string.Empty,
+        }).ToList();
     }
 }
-

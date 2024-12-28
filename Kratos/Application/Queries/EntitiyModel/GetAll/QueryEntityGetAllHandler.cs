@@ -1,5 +1,5 @@
 ﻿using Application.Notification;
-using Core.Abstract;
+using Application.Queries.EntityModel.GetAll;
 using Core.Repositories;
 using MediatR;
 
@@ -17,7 +17,7 @@ public class QueryEntityGetAllHandler : BaseCQRS, IRequestHandler<QueryEntityGet
 
     public async Task<QueryEntityGetAllResponse> Handle(QueryEntityGetAllRequest request, CancellationToken cancellationToken)
     {
-        var entities = await _repository.GetAllAsync();
+        var entities = await _repository.GetAllProjectRelAsync();
         var getAllProject = await _projectRepository.GetAllAsync();
         return request.ToResponse(entities.ToList(), getAllProject.ToList());
     }

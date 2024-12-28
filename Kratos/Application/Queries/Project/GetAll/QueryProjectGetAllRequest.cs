@@ -2,22 +2,18 @@
 
 namespace Application.Queries.Project.GetAll;
 
-public class QueryProjectGetAllRequest : IRequest<IEnumerable<QueryProjectGetAllResponse>>
+public class QueryProjectGetAllRequest : IRequest<List<QueryProjectGetAllResponse>>
 {
-    public List<QueryProjectGetAllResponse> ToResponse(List<Core.Entities.Project> entities)
+    public List<QueryProjectGetAllResponse> ToResponse(List<Core.Entities.Project> projects)
     {
-        List<QueryProjectGetAllResponse> queryProjectGetAllResponse = new List<QueryProjectGetAllResponse>();
 
-        foreach (var item in entities)
-        {
-            queryProjectGetAllResponse.Add(new QueryProjectGetAllResponse
+        return projects
+            .Select(item => new QueryProjectGetAllResponse
             {
                 Id = item.Id,
                 Name = item.Name,
                 AlteredAt = item.AlteredAt,
-            });
-        }
-
-        return queryProjectGetAllResponse;
+            }).OrderBy(e => e.AlteredAt)
+            .ToList();
     }
 }

@@ -16,6 +16,7 @@ namespace Infrastructure.Persistence
         public DbSet<Entity> Entities => Set<Entity>();
         public DbSet<EntityProperty> EntitiesProperties => Set<EntityProperty>();
         public DbSet<Project> Projects => Set<Project>();
+        public DbSet<TypeData> TypeData => Set<TypeData>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

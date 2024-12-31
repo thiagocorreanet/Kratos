@@ -92,7 +92,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("EntitieId")
+                        .HasColumnName("EntityId")
                         .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
@@ -113,9 +113,14 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnType("VARCHAR(100)")
                         .HasColumnName("NameEntite")
                         .HasColumnOrder(2);
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("INT")
+                        .HasColumnName("ProjectId")
+                        .HasColumnOrder(5);
 
                     b.HasKey("Id")
                         .HasName("PK_ENTITIES");
@@ -123,6 +128,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Id")
                         .IsUnique()
                         .HasDatabaseName("IX_ENTITIE_ID");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Entities", (string)null);
                 });
@@ -151,7 +158,7 @@ namespace Infrastructure.Migrations
                         .HasColumnOrder(7)
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("EntityId")
+                    b.Property<int?>("EntityId")
                         .HasColumnType("INT")
                         .HasColumnName("EntityId")
                         .HasColumnOrder(2);
@@ -161,27 +168,39 @@ namespace Infrastructure.Migrations
                         .HasColumnName("IsRequired")
                         .HasColumnOrder(5);
 
+                    b.Property<bool>("IsRequiredRel")
+                        .HasColumnType("BIT")
+                        .HasColumnName("IsRequiredRel")
+                        .HasColumnOrder(9);
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnType("VARCHAR(100)")
                         .HasColumnName("Name")
                         .HasColumnOrder(3);
 
-                    b.Property<int>("QuantityCaracter")
+                    b.Property<int>("PropertyMaxLength")
                         .HasColumnType("INT")
-                        .HasColumnName("QuantityCaracter")
+                        .HasColumnName("PropertyMaxLength")
                         .HasColumnOrder(6);
 
-                    b.Property<string>("Type")
+                    b.Property<int>("TypeDataId")
+                        .HasColumnType("INT")
+                        .HasColumnName("TypeDataId")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("TypeRel")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)")
-                        .HasColumnName("Type")
-                        .HasColumnOrder(4);
+                        .HasColumnName("TypeRel")
+                        .HasColumnOrder(10);
 
                     b.HasKey("Id")
                         .HasName("PK_ENTITYPROPERTIES");
 
                     b.HasIndex("EntityId");
+
+                    b.HasIndex("TypeDataId");
 
                     b.ToTable("EntityProperties", (string)null);
                 });
@@ -222,6 +241,44 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("IX_PROJECT_ID");
 
                     b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Entities.TypeData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("TypeDataId")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AlteredAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DATETIME2")
+                        .HasColumnOrder(4)
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DATETIME2")
+                        .HasColumnOrder(3)
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)")
+                        .HasColumnName("Name")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Id")
+                        .HasName("PK_TYPEDATA");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_TYPEDATA_ID");
+
+                    b.ToTable("TypesData", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -422,16 +479,36 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Entities.Entity", b =>
+                {
+                    b.HasOne("Core.Entities.Project", "ProjectRel")
+                        .WithMany("EntitiesRel")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ENTITY_PROJECT");
+
+                    b.Navigation("ProjectRel");
+                });
+
             modelBuilder.Entity("Core.Entities.EntityProperty", b =>
                 {
                     b.HasOne("Core.Entities.Entity", "EntityRel")
                         .WithMany("PropertyRel")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_ENTITY_ENTITYPROPERTY");
 
+                    b.HasOne("Core.Entities.TypeData", "TypeDataRel")
+                        .WithMany("PropertiesRel")
+                        .HasForeignKey("TypeDataId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ENTITYPROPERTY_TYPEDATA");
+
                     b.Navigation("EntityRel");
+
+                    b.Navigation("TypeDataRel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -488,6 +565,16 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.Entity", b =>
                 {
                     b.Navigation("PropertyRel");
+                });
+
+            modelBuilder.Entity("Core.Entities.Project", b =>
+                {
+                    b.Navigation("EntitiesRel");
+                });
+
+            modelBuilder.Entity("Core.Entities.TypeData", b =>
+                {
+                    b.Navigation("PropertiesRel");
                 });
 #pragma warning restore 612, 618
         }

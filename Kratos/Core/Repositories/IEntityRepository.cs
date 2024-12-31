@@ -5,5 +5,6 @@ namespace Core.Repositories;
 
 public interface IEntityRepository : IBaseRepository<Entity>
 {
-    Task<Entity> GetAllEntityByIdAllPropertityAsync(int id);
+    Task<IEnumerable<Entity>> GetEntitiesByProjectIdAsync(int projectId);
+    Task<IEnumerable<Entity>> GetAllProjectRelAsync();
 }

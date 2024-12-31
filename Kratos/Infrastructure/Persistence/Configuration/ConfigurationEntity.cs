@@ -9,15 +9,19 @@ namespace Infrastructure.Persistence.Configuration;
 
 public class ConfigurationEntity : IEntityTypeConfiguration<Entity>
 {
+    private const string TableName = "Entities";
+    private const string PrimaryKeyName = "PK_ENTITIES";
+    private const string ForeignKeyName = "FK_ENTITY_PROJECT";
+    
     public void Configure(EntityTypeBuilder<Entity> builder)
     {
-        builder.ToTable("Entities");
+        builder.ToTable(TableName);
 
         builder.HasKey(x => x.Id)
-            .HasName("PK_ENTITIES");
+            .HasName(PrimaryKeyName);
 
          builder.Property(c => c.Id)
-            .HasColumnName("EntitieId")
+            .HasColumnName("EntityId")
             .HasColumnOrder(1)
             .ValueGeneratedOnAdd();
 
@@ -25,7 +29,7 @@ public class ConfigurationEntity : IEntityTypeConfiguration<Entity>
            .HasColumnName("NameEntite")
            .HasColumnOrder(2)
            .IsRequired()
-           .HasColumnType("VARCHAR(50)");
+           .HasColumnType("VARCHAR(100)");
 
         builder.Property(x => x.CreatedAt)
             .HasColumnName("CreatedAt")
@@ -43,8 +47,20 @@ public class ConfigurationEntity : IEntityTypeConfiguration<Entity>
             .HasDefaultValueSql("GETDATE()")
             .Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
 
+        builder.Property(c => c.ProjectId)
+            .HasColumnName("ProjectId")
+            .HasColumnOrder(5)
+            .IsRequired(true)
+            .HasColumnType("INT");
+
         builder.HasIndex(c => c.Id)
             .HasDatabaseName("IX_ENTITIE_ID")
             .IsUnique();
+
+        builder.HasOne(b => b.ProjectRel)
+            .WithMany(c => c.EntitiesRel)
+            .HasForeignKey(b => b.ProjectId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName(ForeignKeyName);
     }
 }

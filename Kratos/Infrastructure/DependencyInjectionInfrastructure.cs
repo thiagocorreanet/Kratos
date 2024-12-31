@@ -1,5 +1,4 @@
-﻿using Core.Abstract;
-using Core.Auth;
+﻿using Core.Auth;
 using Core.Repositories;
 
 using Infrastructure.Persistence;
@@ -42,6 +41,7 @@ namespace Infrastructure
             services.AddScoped<IEntityRepository, EntityRepository>();
             services.AddScoped<IEntityPropertyRepository, EntityPropertyRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ITypeDataRepository, TypeDataRepository>();
 
             return services;
         }

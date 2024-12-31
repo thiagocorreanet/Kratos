@@ -1,22 +1,24 @@
 ﻿using Application.Notification;
-using AutoMapper;
+using Application.Queries.EntityModel.GetAll;
 using Core.Repositories;
 using MediatR;
 
 namespace Application.Queries.EntitiyModel.GetAll;
 
-public class QueryEntityGetAllHandler : BaseCQRS, IRequestHandler<QueryEntityGetAllRequest, IEnumerable<QueryEntityGetAllResponse>>
+public class QueryEntityGetAllHandler : BaseCQRS, IRequestHandler<QueryEntityGetAllRequest, QueryEntityGetAllResponse>
 {
-    readonly IEntityRepository _repository;
-
-    public QueryEntityGetAllHandler(INotificationError notificationError, IMapper iMapper, IEntityRepository repository) : base(notificationError, iMapper)
+    private readonly IEntityRepository _repository;
+    private readonly IProjectRepository _projectRepository;
+    public QueryEntityGetAllHandler(INotificationError notificationError, IEntityRepository repository, IProjectRepository projectRepository) : base(notificationError)
     {
         _repository = repository;
+        _projectRepository = projectRepository;
     }
 
-    public async Task<IEnumerable<QueryEntityGetAllResponse>> Handle(QueryEntityGetAllRequest request, CancellationToken cancellationToken)
+    public async Task<QueryEntityGetAllResponse> Handle(QueryEntityGetAllRequest request, CancellationToken cancellationToken)
     {
-        var entities = await _repository.GetAllAsync();
-        return await MappingList<QueryEntityGetAllResponse>(entities);
+        var entities = await _repository.GetAllProjectRelAsync();
+        var getAllProject = await _projectRepository.GetAllAsync();
+        return request.ToResponse(entities.ToList(), getAllProject.ToList());
     }
 }

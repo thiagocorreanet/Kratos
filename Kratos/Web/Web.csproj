@@ -14,13 +14,19 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
 		<PackageReference Include="Refit" Version="8.0.0" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Application\Application.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
 	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Views\Shared\Components\VcEntityProperties\Default.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Entities\Components\VcNewProperty\Default.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Entities\Components\VcSelectEntity\Default.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Entities\Components\VcTableProperty\Default.cshtml" />
 	</ItemGroup>
 
 </Project>

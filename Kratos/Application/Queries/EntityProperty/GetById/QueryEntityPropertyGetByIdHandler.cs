@@ -1,5 +1,4 @@
 ﻿using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 
@@ -9,13 +8,13 @@ public class QueryEntityPropertyGetByIdHandler : BaseCQRS, IRequestHandler<Query
 {
     private readonly IEntityPropertyRepository _repository;
     
-    public QueryEntityPropertyGetByIdHandler(INotificationError notificationError, IMapper iMapper, IEntityPropertyRepository repository) : base(notificationError, iMapper)
+    public QueryEntityPropertyGetByIdHandler(INotificationError notificationError, IEntityPropertyRepository repository) : base(notificationError)
     {
         _repository = repository;
     }
 
     public async Task<QueryEntityPropertyGetByIdResponse> Handle(QueryEntityPropertyGetByIdRequest request, CancellationToken cancellationToken)
     {
-        return await SimpleMapping<QueryEntityPropertyGetByIdResponse>(await _repository.GetByIdAsync(request.Id));
+        return request.ToResponse(await _repository.GetByIdAsync(request.Id));
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Abstract;
+using Core.Repositories;
 
 namespace Infrastructure.Persistence.Repositories;
 

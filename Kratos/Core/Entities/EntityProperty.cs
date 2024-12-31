@@ -7,21 +7,26 @@ public class EntityProperty : BaseEntity
     protected EntityProperty()
     {}
 
-    public EntityProperty(string name, string type, bool isRequired, int entityId, int quantityCaracter)
+    public EntityProperty(string name, int typeDataId, bool isRequired, int propertyMaxLength, bool isRequiredRel, int? entityId, string typeRel)
     {
         Name = name;
-        Type = type;
+        TypeDataId = typeDataId;
         IsRequired = isRequired;
+        PropertyMaxLength = propertyMaxLength;
+        IsRequiredRel = isRequiredRel;
         EntityId = entityId;
-        QuantityCaracter = quantityCaracter;
+        TypeRel = typeRel;
     }
 
     public string Name { get; private set; } 
-    public string Type { get; private set; } 
+    public int TypeDataId { get; private set; } 
     public bool IsRequired { get; private set; }
-    public int QuantityCaracter { get; private set; }
+    public int PropertyMaxLength { get; private set; }
+    public bool IsRequiredRel { get; private set; }
+    public int? EntityId { get; private set; }
+    public string TypeRel { get; private set; }
 
     // Relation property
-    public int EntityId { get; private set; }
     public Entity EntityRel { get; private set; } = null!;
+    public TypeData TypeDataRel { get; private set; } = null!;
 }

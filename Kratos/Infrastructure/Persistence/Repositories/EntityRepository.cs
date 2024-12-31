@@ -9,16 +9,21 @@ namespace Infrastructure.Persistence.Repositories
     {
         public EntityRepository(DbContextProject context) : base(context)
         {
+           
+        }
+        
+        public async Task<IEnumerable<Entity>> GetAllProjectRelAsync()
+        {
+            return await _context.Set<Entity>()
+                .Include(e => e.ProjectRel) 
+                .ToListAsync();
         }
 
-        public async Task<Entity> GetAllEntityByIdAllPropertityAsync(int id)
+        public async Task<IEnumerable<Entity>> GetEntitiesByProjectIdAsync(int projectId)
         {
-            var getEntityById = await _dbSet
-                .AsNoTracking()
-                .Include(x => x.PropertyRel)
-                .SingleOrDefaultAsync(x => x.Id == id);
-
-            return getEntityById;
+            return await _context.Set<Entity>()
+                .Where(e => e.ProjectId == projectId)
+                .ToListAsync();
         }
     }
 }

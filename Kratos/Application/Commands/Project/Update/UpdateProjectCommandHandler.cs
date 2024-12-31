@@ -1,6 +1,5 @@
 ﻿using Application.Notification;
-using AutoMapper;
-using Core.Abstract;
+using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +10,7 @@ public class UpdateProjectCommandHandler : BaseCQRS, IRequestHandler<UpdateProje
     private readonly IProjectRepository _repository;
     private readonly ILogger<UpdateProjectCommandHandler> _logger;
 
-    public UpdateProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<UpdateProjectCommandHandler> logger, IMapper iMapper) : base(notificationError, iMapper)
+    public UpdateProjectCommandHandler(INotificationError notificationError, IProjectRepository repository, ILogger<UpdateProjectCommandHandler> logger) : base(notificationError)
     {
         _repository = repository;
         _logger = logger;
@@ -19,37 +18,60 @@ public class UpdateProjectCommandHandler : BaseCQRS, IRequestHandler<UpdateProje
 
     public async Task<bool> Handle(UpdateProjectCommandRequest request, CancellationToken cancellationToken)
     {
-        const bool transactionStared = true;
+        bool transactionStarted = false;
+
         try
         {
             var getByIdProject = await _repository.GetByIdAsync(request.Id);
+
             if (getByIdProject is null)
             {
-                Notify(message: "Unable to locate the record.");
+                Notify("Unable to locate the record.");
                 return false;
             }
 
-            await _repository.StartTransactionAsync();
+            transactionStarted = await StartTransactionAsync();
 
-            _repository.Update(await SimpleMapping<Core.Entities.Project>(request));
-            var result = await _repository.SaveChangesAsync();
+            var result = await UpdateProjectAsync(getByIdProject, request);
+            if (!result) return RollbackWithError("Unable to update the record. Please try again.");
 
-            if (!result)
-            {
-                Notify("Oops! We couldn't save your record. Please try again.");
-                await _repository.RollbackTransactionAsync();
-                return false;
-            }
-
-            await _repository.CommitTransactionAsync();
+            await CommitTransactionAsync();
+            return true;
         }
         catch (Exception ex)
         {
-            if (transactionStared) await _repository.RollbackTransactionAsync();
-            _logger.LogCritical("Ops! We were unable to process your request.Details error: { ErrorMessage}", ex.Message);
-            Notify("Oops! We were unable to process your request.");
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
         }
-
+    }
+    
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
         return true;
+    }
+
+    private async Task<bool> UpdateProjectAsync(Core.Entities.Project project, UpdateProjectCommandRequest request)
+    {
+        _repository.Update(request.ToEntity(request));
+        return await _repository.SaveChangesAsync();
+    }
+
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await _repository.RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error while updating project. Details: {Message}", ex.Message);
+        Notify("Oops! We were unable to process your request.");
+    }
+
+    private bool RollbackWithError(string message)
+    {
+        Notify(message);
+        return false;
     }
 }

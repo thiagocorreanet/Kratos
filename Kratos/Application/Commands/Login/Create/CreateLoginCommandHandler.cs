@@ -1,18 +1,15 @@
 ﻿
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Application.Notification;
-using AutoMapper;
 using Core.Auth;
 using Core.Repositories;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Application.Commands.Login.Create
 {
@@ -23,7 +20,7 @@ namespace Application.Commands.Login.Create
         readonly JsonWebToken _jsonWebToken;
         readonly ILogger<CreateLoginCommandHandler> _logger;
 
-        public CreateLoginCommandHandler(INotificationError notificationError, IAuthRepository authRepository, UserManager<IdentityUser> userManager, IOptions<JsonWebToken> jsonWebToken, ILogger<CreateLoginCommandHandler> logger, IMapper mapper) : base(notificationError, mapper)
+        public CreateLoginCommandHandler(INotificationError notificationError, IAuthRepository authRepository, UserManager<IdentityUser> userManager, IOptions<JsonWebToken> jsonWebToken, ILogger<CreateLoginCommandHandler> logger) : base(notificationError)
         {
             _authRepository = authRepository;
             _userManager = userManager;

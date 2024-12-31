@@ -1,43 +1,76 @@
 using Application.Notification;
-using AutoMapper;
 using Core.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Commands.Entity.Create;
 
-public class CreateEntityCommandHandler(INotificationError notificationError, IEntityRepository repository, ILogger<CreateEntityCommandHandler> logger, IMapper iMapper) : BaseCQRS(notificationError, iMapper), IRequestHandler<CreateEntityCommandRequest, bool>
+public class CreateEntityCommandHandler : BaseCQRS, IRequestHandler<CreateEntityCommandRequest, bool>
 {
+    private readonly IEntityRepository _repository;
+    private readonly ILogger<CreateEntityCommandHandler> _logger;
+
+    public CreateEntityCommandHandler(
+        INotificationError notificationError,
+        IEntityRepository repository,
+        ILogger<CreateEntityCommandHandler> logger
+    ) : base(notificationError)
+    {
+        _repository = repository;
+        _logger = logger;
+    }
+
     public async Task<bool> Handle(CreateEntityCommandRequest request, CancellationToken cancellationToken)
     {
-        const bool transactionStared = true;
-
+        bool transactionStarted = false;
         try
         {
-            await repository.StartTransactionAsync();
-            repository.Add(await SimpleMapping<Core.Entities.Entity>(request));
-            var result = await repository.SaveChangesAsync();
+            transactionStarted = await StartTransactionAsync();
 
+            var result = await SaveEntityAsync(request);
             if (!result)
             {
-                Notify(message: "Oops! We couldn't save your record. Please try again.");
-                await repository.RollbackTransactionAsync();
+                await RollbackTransactionAsync();
+                Notify("Couldn't save your record. Please try again.");
                 return false;
             }
 
-            await repository.CommitTransactionAsync();
+            await CommitTransactionAsync();
+            return true;
         }
         catch (Exception ex)
         {
-            if (transactionStared) await repository.RollbackTransactionAsync();
-
-            logger.LogCritical(
-                message: "Ops! We were unable to process your request. Details error: {ErrorMessage}",
-                args: ex.Message);
-
-            Notify(message: "Oops! We were unable to process your request.");
+            await HandleExceptionAsync(ex, transactionStarted);
+            return false;
         }
+    }
 
+    private async Task<bool> StartTransactionAsync()
+    {
+        await _repository.StartTransactionAsync();
         return true;
+    }
+
+    private async Task<bool> SaveEntityAsync(CreateEntityCommandRequest request)
+    {
+        _repository.Add(request.ToEntity(request));
+        return await _repository.SaveChangesAsync();
+    }
+
+    private async Task CommitTransactionAsync()
+    {
+        await _repository.CommitTransactionAsync();
+    }
+
+    private async Task RollbackTransactionAsync()
+    {
+        await _repository.RollbackTransactionAsync();
+    }
+
+    private async Task HandleExceptionAsync(Exception ex, bool transactionStarted)
+    {
+        if (transactionStarted) await RollbackTransactionAsync();
+        _logger.LogCritical(ex, "Error during CreateEntityCommandHandler execution.");
+        Notify("An unexpected error occurred. Please contact support.");
     }
 }

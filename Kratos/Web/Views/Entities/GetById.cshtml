@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Consultar Entidade";
+    var teste = "";
 }
 
 <div class="page-header d-print-none">
@@ -11,18 +12,22 @@
                 <!-- Page pre-title -->
                 <div class="page-pretitle">
                     <a href="/">Dashboard</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l14 0" />
-                        <path d="M15 16l4 -4" />
-                        <path d="M15 8l4 4" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 12l14 0"/>
+                        <path d="M15 16l4 -4"/>
+                        <path d="M15 8l4 4"/>
                     </svg>
                     <a href="/lista-de-entidades">Lista de entidades</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 12l14 0" />
-                        <path d="M15 16l4 -4" />
-                        <path d="M15 8l4 4" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 12l14 0"/>
+                        <path d="M15 16l4 -4"/>
+                        <path d="M15 8l4 4"/>
                     </svg>
                     <a href="#">Consultar Entidade</a>
                 </div>
@@ -33,9 +38,16 @@
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
-                    <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+                    <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                       data-bs-target="#modal-report">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 5l0 14"/>
+                            <path d="M5 12l14 0"/>
+                        </svg>
                         Nova Entidade
                     </a>
                 </div>
@@ -50,37 +62,61 @@
             <div class="col-12">
                 <!-- Formulário Principal -->
                 <form method="post" class="card">
-                    <input type="hidden" id="Id" value="@Model.Id" />
+                    <input type="hidden" id="Id" value="@Model.Id"/>
                     <!-- Tabs para Navegação -->
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                                     <li class="nav-item">
-                                        <a href="#registration-data" class="nav-link active" data-bs-toggle="tab">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-cancel">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M4 10a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                                <path d="M6 4v4" />
-                                                <path d="M6 12v8" />
-                                                <path d="M13.499 14.675a2 2 0 1 0 -1.499 3.325" />
-                                                <path d="M12 4v10" />
-                                                <path d="M12 18v2" />
-                                                <path d="M16 7a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                                <path d="M18 4v1" />
-                                                <path d="M18 9v3" />
-                                                <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                <path d="M17 21l4 -4" />
+                                        <a href="#registration-data" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-cancel">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M4 10a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
+                                                <path d="M6 4v4"/>
+                                                <path d="M6 12v8"/>
+                                                <path d="M13.499 14.675a2 2 0 1 0 -1.499 3.325"/>
+                                                <path d="M12 4v10"/>
+                                                <path d="M12 18v2"/>
+                                                <path d="M16 7a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
+                                                <path d="M18 4v1"/>
+                                                <path d="M18 9v3"/>
+                                                <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/>
+                                                <path d="M17 21l4 -4"/>
                                             </svg>
                                             &nbsp; Dados Cadastrais
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="#properties" class="nav-link active" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-file-barcode">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+                                                <path
+                                                    d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/>
+                                                <path d="M8 13h1v3h-1z"/>
+                                                <path d="M12 13v3"/>
+                                                <path d="M15 13h1v3h-1z"/>
+                                            </svg>
+                                            &nbsp; Propriedades
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="#audit" class="nav-link" data-bs-toggle="tab">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-shield-half">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" />
-                                                <path d="M12 3v18" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-shield-half">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path
+                                                    d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3"/>
+                                                <path d="M12 3v18"/>
                                             </svg>
                                             &nbsp; Auditoria
                                         </a>
@@ -89,29 +125,227 @@
                             </div>
                             <div class="card-body">
                                 <div class="tab-content">
-                                    <div class="tab-pane active show" id="registration-data">
-                                        <div class="row row-cards">
-                                            <div class="col-sm-6 col-md-3">
+                                    <div class="tab-pane " id="registration-data">
+                                        <div class="row g-3 align-items-center">
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <label class="form-label" asp-for="Name">Nome</label>
+                                                    <label class="form-label" asp-for="Name">Nome do campo</label>
                                                     <input type="text" class="form-control" asp-for="Name">
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <label class="form-label" asp-for="ProjectId">Projeto</label>
+                                                    <select class="form-select" asp-for="ProjectId"
+                                                            style="max-width: 100%;">
+                                                        @foreach (var project in Model.ProjectRel)
+                                                        {
+                                                            if (project.Id == Model.ProjectId)
+                                                            {
+                                                                <option value="@project.Id"
+                                                                        selected>@project.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@project.Id">@project.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane active show" id="properties">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <div class="f" style="margin-top: 28px !important;">
+                                                        <label class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   id="RelationRequiredField" checked>
+                                                            <span
+                                                                class="form-check-label">Rel. Obrigatório?</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <div class="f" style="margin-top: 28px !important;">
+                                                        <label class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   id="RequiredField">
+                                                            <span class="form-check-label">Campo Obrigatório?</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-cards g-3 align-items-center">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nome do campo</label>
+                                                    <input type="text" class="form-control" id="NameField">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tipo de dado</label>
+                                                    <select class="form-select" id="SelectTypeDataField">
+                                                        @foreach (var typeDataRelItem in Model.TypeDataRel)
+                                                        {
+                                                            <option
+                                                                value="@typeDataRelItem.Id">@typeDataRelItem.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Qtd. Caracter</label>
+                                                    <input type="number" class="form-control" id="QuantityField">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Entidade Rel.</label>
+                                                    <select class="form-select" id="SelectEntityFiled">
+                                                        <option value="0">Nenhum</option>
+                                                        @foreach (var entitiyItem in Model.EntitiesRel)
+                                                        {
+                                                            <option value="@entitiyItem.Id">@entitiyItem.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="RelationshipTypesContainer" class="col-md-4">
+                                                <div class="mb-3">
+                                                    <div class="form-label">Tipos de relacionamentos</div>
+                                                    <div style="margin-top: 28px !important;">
+                                                        <label class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="radios-inline" id="EmptyField" value="Nenhum"
+                                                                   checked="">
+                                                            <span class="form-check-label">Nenhum</span>
+                                                        </label>
+                                                        <label class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="radios-inline" id="1NField" value="1N">
+                                                            <span class="form-check-label"><strong>1:N</strong> (One-to-Many)</span>
+                                                        </label>
+                                                        <label class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="radios-inline" id="N1Field" value="N1">
+                                                            <span class="form-check-label"><strong>N:1</strong> (Many-to-One)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <a href="#" class="btn btn-primary d-none d-sm-inline-block"
+                                                           onclick="postDataProperty();">
+                                                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon"
+                                                                 width="24" height="24" viewBox="0 0 24 24"
+                                                                 stroke-width="2" stroke="currentColor" fill="none"
+                                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                                <path d="M12 5l0 14"/>
+                                                                <path d="M5 12l14 0"/>
+                                                            </svg>
+                                                            Adicionar Propriedade
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+                                        <div class="row row-cards g-3 align-items-center">
+                                            <table id="tableProperties" class="table table-striped table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Campo</th>
+                                                    <th>Tipo de dado</th>
+                                                    <th>Quantidade de caracteres</th>
+                                                    <th>Obrigatorio?</th>
+                                                    <th>Campo relacional</th>
+                                                    <th>Rel. Obrigatório?</th>
+                                                    <th>Tipo Rel.</th>
+                                                    <th class="text-center">Consultar</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach (var item in Model.EntitiesPropertiesRel)
+                                                {
+                                                    <tr>
+                                                        <td class="td-custom">@item.Name</td>
+                                                        <td class="td-custom">@item.TypeDataDescription</td>
+                                                        <td class="td-custom">@item.PropertyMaxLength</td>
+                                                        <td class="td-custom">@(item.IsRequired ? "Sim" : "Não") </td>
+                                                        <td class="td-custom @(!string.IsNullOrEmpty(item.EntityDescription) ? "" : "text-danger")">@(!string.IsNullOrEmpty(item.EntityDescription) ? item.EntityDescription : "Não Obrigatório")</td>
+                                                        <td class="td-custom">@(item.IsRequiredRel ? "Sim" : "Não") </td>
+                                                        <td class="td-custom">@item.TypeRel</td>
+                                                        <td style="width:5%">
+                                                            <div class="text-center">
+                                                                <a href="#" class="text-danger" onclick="deleteDataProperty(@item.Id)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                         height="24" viewBox="0 0 24 24" fill="none"
+                                                                         stroke="currentColor" stroke-width="2"
+                                                                         stroke-linecap="round" stroke-linejoin="round"
+                                                                         class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                                        <path stroke="none" d="M0 0h24v24H0z"
+                                                                              fill="none"/>
+                                                                        <path d="M4 7l16 0"/>
+                                                                        <path d="M10 11l0 6"/>
+                                                                        <path d="M14 11l0 6"/>
+                                                                        <path
+                                                                            d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
+                                                                        <path
+                                                                            d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
+                                                                    </svg>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
+
                                     <div class="tab-pane" id="audit">
                                         <div class="row row-cards">
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label" asp-for="CreatedAtShortDate">Data de criação</label>
-                                                    <input type="text" class="form-control" asp-for="CreatedAtShortDate" disabled>
+                                                    <label class="form-label" asp-for="CreatedAtShortDate">Data de
+                                                        criação</label>
+                                                    <input type="text" class="form-control" asp-for="CreatedAtShortDate"
+                                                           disabled>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6 col-md-6 col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label" asp-for="AlteredAtShortDate">Data de alteração</label>
-                                                    <input type="text" class="form-control" asp-for="AlteredAtShortDate" disabled>
+                                                    <label class="form-label" asp-for="AlteredAtShortDate">Data de
+                                                        alteração</label>
+                                                    <input type="text" class="form-control" asp-for="AlteredAtShortDate"
+                                                           disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,45 +353,53 @@
                                     </div>
                                 </div>
 
-                                <hr />
+                                <hr/>
 
                                 <div>
                                     <div class="d-flex justify-content-between">
                                         <a href="/lista-de-entidades" class="btn btn-secondary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-corner-down-left">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M18 6v6a3 3 0 0 1 -3 3h-10l4 -4m0 8l-4 -4" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-corner-down-left">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M18 6v6a3 3 0 0 1 -3 3h-10l4 -4m0 8l-4 -4"/>
                                             </svg>
                                             Voltar
                                         </a>
 
                                         <div class="d-flex gap-2">
-                                            <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M4 7l16 0" />
-                                                    <path d="M10 11l0 6" />
-                                                    <path d="M14 11l0 6" />
-                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                            <a href="#" class="btn btn-danger" data-bs-toggle="modal"
+                                               data-bs-target="#modal-delete">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M4 7l16 0"/>
+                                                    <path d="M10 11l0 6"/>
+                                                    <path d="M14 11l0 6"/>
+                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
+                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
                                                 </svg>
                                                 Excluir
                                             </a>
                                             <a href="#" class="btn btn-primary" onclick="putData()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                                    <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                    <path d="M14 4l0 4l-6 0l0 -4" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path
+                                                        d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"/>
+                                                    <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+                                                    <path d="M14 4l0 4l-6 0l0 -4"/>
                                                 </svg>
                                                 Salvar
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
@@ -174,6 +416,13 @@
 @await Component.InvokeAsync("VcError")
 
 @section Scripts {
+
+    <script src="~/dist/js/property/property.js" asp-append-version="true"></script>
     <script src="~/dist/js/entity/entity.js" asp-append-version="true"></script>
+
+    <script>
+        initializeDataTable('#tableProperties');
+    </script>
 }
+
 

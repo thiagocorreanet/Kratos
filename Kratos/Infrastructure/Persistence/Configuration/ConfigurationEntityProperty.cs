@@ -25,7 +25,7 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
         builder.Property(c => c.EntityId) 
             .HasColumnName(nameof(EntityProperty.EntityId))
             .HasColumnOrder(2)
-            .IsRequired(false)
+            .IsRequired(true)
             .HasColumnType("INT");
 
         builder.Property(c => c.Name)
@@ -80,6 +80,12 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
             .IsRequired()
             .HasColumnType("VARCHAR(50)");
         
+        builder.Property(c => c.EntityIdRel) 
+            .HasColumnName(nameof(EntityProperty.EntityIdRel))
+            .HasColumnOrder(11)
+            .IsRequired(false)
+            .HasColumnType("INT");
+        
         builder.HasOne(b => b.TypeDataRel)
             .WithMany(c => c.PropertiesRel)
             .HasForeignKey(b => b.TypeDataId)
@@ -89,6 +95,13 @@ public class ConfigurationEntityProperty : IEntityTypeConfiguration<EntityProper
         builder.HasOne(c => c.EntityRel) 
             .WithMany(e => e.PropertyRel) 
             .HasForeignKey(c => c.EntityId) 
+            .HasConstraintName(ForeignKeyEntity) 
+            .IsRequired(true)
+            .OnDelete(DeleteBehavior.Cascade); 
+        
+        builder.HasOne(c => c.EntityRel) 
+            .WithMany(e => e.PropertyRel) 
+            .HasForeignKey(c => c.EntityIdRel) 
             .HasConstraintName(ForeignKeyEntity) 
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade); 

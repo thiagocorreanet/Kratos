@@ -72,4 +72,11 @@ div.dt-buttons > .dt-button, div.dt-buttons > div.dt-button-split .dt-button {
 .hr, hr {
     margin: 1rem 0 !important;
 }
+
+pre {
+    padding: 1rem;
+    background: #1e1e1e;
+    color: var(--tblr-light);
+    border-radius: var(--tblr-border-radius);
+}
    

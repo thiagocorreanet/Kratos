@@ -52,7 +52,7 @@ public class QueryEntityGetByIdRequest : IRequest<QueryEntityGetByIdResponse>
             TypeDataId = x.TypeDataId,
             IsRequired = x.IsRequired,
             PropertyMaxLength = x.PropertyMaxLength,
-            IsRequiredRel = x.IsRequired,
+            IsRequiredRel = x.IsRequiredRel,
             EntityId = x.EntityId,
             TypeRel = x.TypeRel,
             TypeDataDescription = x.TypeDataRel?.Name ?? string.Empty,

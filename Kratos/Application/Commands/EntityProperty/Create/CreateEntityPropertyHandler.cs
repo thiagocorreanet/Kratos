@@ -22,11 +22,6 @@ public class CreateEntityPropertyHandler : BaseCQRS, IRequestHandler<CreateEntit
     {
         bool transactionStarted = false;
 
-        if (request.EntityId == 0)
-        {
-            request.EntityId = null; // Converte para nulo, já que o relacionamento não é obrigatório.
-        }
-        
         try
         {
             transactionStarted = await StartTransactionAsync();

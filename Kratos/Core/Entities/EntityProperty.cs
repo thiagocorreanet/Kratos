@@ -7,7 +7,7 @@ public class EntityProperty : BaseEntity
     protected EntityProperty()
     {}
 
-    public EntityProperty(string name, int typeDataId, bool isRequired, int propertyMaxLength, bool isRequiredRel, int? entityId, string typeRel)
+    public EntityProperty(string name, int typeDataId, bool isRequired, int propertyMaxLength, bool isRequiredRel, int entityId, string typeRel, int? entityIdRel)
     {
         Name = name;
         TypeDataId = typeDataId;
@@ -16,6 +16,7 @@ public class EntityProperty : BaseEntity
         IsRequiredRel = isRequiredRel;
         EntityId = entityId;
         TypeRel = typeRel;
+        EntityIdRel = entityIdRel;
     }
 
     public string Name { get; private set; } 
@@ -23,8 +24,9 @@ public class EntityProperty : BaseEntity
     public bool IsRequired { get; private set; }
     public int PropertyMaxLength { get; private set; }
     public bool IsRequiredRel { get; private set; }
-    public int? EntityId { get; private set; }
+    public int EntityId { get; private set; }
     public string TypeRel { get; private set; }
+    public int? EntityIdRel { get; private set; }
 
     // Relation property
     public Entity EntityRel { get; private set; } = null!;

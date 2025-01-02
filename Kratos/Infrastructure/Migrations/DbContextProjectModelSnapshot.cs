@@ -158,10 +158,15 @@ namespace Infrastructure.Migrations
                         .HasColumnOrder(7)
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int?>("EntityId")
+                    b.Property<int>("EntityId")
                         .HasColumnType("INT")
                         .HasColumnName("EntityId")
                         .HasColumnOrder(2);
+
+                    b.Property<int?>("EntityIdRel")
+                        .HasColumnType("INT")
+                        .HasColumnName("EntityIdRel")
+                        .HasColumnOrder(11);
 
                     b.Property<bool>("IsRequired")
                         .HasColumnType("BIT")
@@ -198,7 +203,7 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("PK_ENTITYPROPERTIES");
 
-                    b.HasIndex("EntityId");
+                    b.HasIndex("EntityIdRel");
 
                     b.HasIndex("TypeDataId");
 
@@ -495,7 +500,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Core.Entities.Entity", "EntityRel")
                         .WithMany("PropertyRel")
-                        .HasForeignKey("EntityId")
+                        .HasForeignKey("EntityIdRel")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_ENTITY_ENTITYPROPERTY");
 

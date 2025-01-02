@@ -9,8 +9,9 @@ public class CreateEntityPropertyRequest : IRequest<bool>
     public bool IsRequired { get;  set; }
     public int QuantityCaracter { get;  set; }
     public bool IsRequiredRel { get;  set; }
-    public int? EntityId { get;  set; }
+    public int EntityId { get;  set; }
     public string TypeRel { get;  set; } = null!;
+    public int? EntityIdRel { get;  set; }
 
     public Core.Entities.EntityProperty ToEntity(CreateEntityPropertyRequest request)
     {
@@ -21,7 +22,8 @@ public class CreateEntityPropertyRequest : IRequest<bool>
                QuantityCaracter = request.QuantityCaracter,
                IsRequiredRel = request.IsRequiredRel,
                EntityId = request.EntityId,
-               TypeRel = request.TypeRel
+               TypeRel = request.TypeRel,
+               EntityIdRel = request.EntityIdRel
             );
     }
 }

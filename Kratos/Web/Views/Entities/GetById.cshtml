@@ -297,9 +297,9 @@
                                                         <td class="td-custom">@item.Name</td>
                                                         <td class="td-custom">@item.TypeDataDescription</td>
                                                         <td class="td-custom">@item.PropertyMaxLength</td>
-                                                        <td class="td-custom">@(item.IsRequired ? "Sim" : "Não") </td>
+                                                        <td class="td-custom">@(item.IsRequired == true ? "Sim" : "Não") </td>
                                                         <td class="td-custom @(!string.IsNullOrEmpty(item.EntityDescription) ? "" : "text-danger")">@(!string.IsNullOrEmpty(item.EntityDescription) ? item.EntityDescription : "Não Obrigatório")</td>
-                                                        <td class="td-custom">@(item.IsRequiredRel ? "Sim" : "Não") </td>
+                                                        <td class="td-custom">@(item.IsRequiredRel == true ? "Sim" : "Não") </td>
                                                         <td class="td-custom">@item.TypeRel</td>
                                                         <td style="width:5%">
                                                             <div class="text-center">

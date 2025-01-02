@@ -3,6 +3,8 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using System.Text.Json.Serialization;
+using Application.GenerateCode.Templates.Core.Abstract;
+using Application.GenerateCode.Templates.Core.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -37,7 +39,8 @@ builder.Host.UseSerilog();
 builder.Services.AddSerilog(builder.Configuration);
 
 
-
+builder.Services.AddTransient<TemplateEntities>();
+builder.Services.AddTransient<TemplateAbstract>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

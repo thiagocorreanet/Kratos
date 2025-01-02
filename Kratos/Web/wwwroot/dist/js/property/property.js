@@ -50,8 +50,9 @@ async function postDataProperty() {
         isRequired: isRequired,
         quantityCaracter: quantityCaracter,
         isRequiredRel: isRequiredRel,
-        entityId: entityId,
-        typeRel: typeRel
+        entityId: id,
+        typeRel: typeRel,
+        entityIdRel: entityId
     };
 
     try {

@@ -8,11 +8,20 @@ public class EntityPropertyRepository : BaseRepository<EntityProperty>, IEntityP
 {
     public EntityPropertyRepository(DbContextProject context) : base(context) { }
 
+    public async Task<IEnumerable<EntityProperty>> GetAllEntitiesPropertiesByEntityIdAsync(int id)
+    {
+        return await _context.Set<EntityProperty>()
+            .Where(e => e.EntityId == id)
+            .Include(e => e.EntityRel)   
+            .Include(e => e.TypeDataRel) 
+            .ToListAsync();
+    }
+    
     public async Task<IEnumerable<EntityProperty>> GetAllTypeDataAsync()
     {
         return  await _context.Set<EntityProperty>()
             .Include(e => e.TypeDataRel)
-            .Include(i => i.EntityRel)
+            .Include(e => e.EntityRel)
             .ToListAsync();
     }
 }
